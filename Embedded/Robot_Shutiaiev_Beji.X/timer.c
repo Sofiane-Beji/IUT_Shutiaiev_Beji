@@ -1,7 +1,11 @@
 #include <xc.h>
 #include "timer.h"
 #include "IO.h"
+#include "PWM.h"
+#include "Robot.h"
 //Initialisation d?un timer 16 bits
+
+unsigned char toggle = 0;
 
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
@@ -12,17 +16,23 @@ void InitTimer1(void) {
     //01 = 1:8 prescale value
     //00 = 1:1 prescale value
     T1CONbits.TCS = 0; //clock source = internal clock
-    PR1 = 0x928;
+    PR1 = 2344;
     IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
     IEC0bits.T1IE = 1; // Enable Timer interrupt
     T1CONbits.TON = 1; // Enable Timer
 }
 //Interruption du timer 1
 
-void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
+/*void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     LED_BLANCHE_1 = !LED_BLANCHE_1;
+}*/
+
+void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
+    IFS0bits.T1IF = 0;
+    PWMUpdateSpeed();
 }
+
 //Initialisation d?un timer 32 bits
 
 void InitTimer23(void) {
@@ -30,11 +40,11 @@ void InitTimer23(void) {
     T2CONbits.TON = 0; // Stop any 16/32-bit Timer3 operation
     T2CONbits.T32 = 1; // Enable 32-bit Timer mode
     T2CONbits.TCS = 0; // Select internal instruction cycle clock
-    T2CONbits.TCKPS = 0b01; // Select 1:1 Prescaler
+    T2CONbits.TCKPS = 0b10; // Select 1:1 Prescaler
     TMR3 = 0x00; // Clear 32-bit Timer (msw)
     TMR2 = 0x00; // Clear 32-bit Timer (lsw)
-    PR3 = 0x6E; // Load 32-bit period value (msw)
-    PR2 = 0x470E0; // Load 32-bit period value (lsw)
+    PR3 = 14; // Load 32-bit period value (msw)
+    PR2 = 19996; // Load 32-bit period value (lsw)
     IPC2bits.T3IP = 0x01; // Set Timer3 Interrupt Priority Level
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     IEC0bits.T3IE = 1; // Enable Timer3 interrupt
@@ -42,7 +52,34 @@ void InitTimer23(void) {
 }
 //Interruption du timer 32 bits sur 2-3
 
-void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+/*void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     LED_ORANGE_1 = !LED_ORANGE_1;
+}*/
+
+//Interruption du timer 32 bits sur 2-3
+
+/*void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+    IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
+    if (toggle == 0) {
+        PWMSetSpeed(20, MOTEUR_DROIT);
+        PWMSetSpeed(20, MOTEUR_GAUCHE);
+        toggle = 1;
+    } else {
+        PWMSetSpeed(-20, MOTEUR_DROIT);
+        PWMSetSpeed(-20, MOTEUR_GAUCHE);
+        toggle = 0;
+    }
+}*/
+
+void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+    IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
+    if (toggle == 0) {
+        robotState.vitesseDroiteConsigne = 10.00;
+        
+        toggle = 1;
+    } else {
+        robotState.vitesseDroiteConsigne = 30.00;
+        toggle = 0;
+    }
 }

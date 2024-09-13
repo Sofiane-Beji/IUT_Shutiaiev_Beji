@@ -1,7 +1,13 @@
 #include <xc.h>
 #include "IO.h"
 #include "PWM.h"
+#include "Toolbox.h"
+#include "Robot.h"
+
 #define PWMPER 24.0
+
+
+float acceleration = 0.5;
 
 void InitPWM(void) {
     PTCON2bits.PCLKDIV = 0b000; //Divide by 1
@@ -47,5 +53,39 @@ void PWMSetSpeed(float vitesseEnPourcents, _Bool moteur) {
             SDC2 = -vitesseEnPourcents * PWMPER + talon;
             PDC2 = talon;
         }
+    }
+}
+
+void PWMUpdateSpeed() {
+    // Cette fonction est appelee sur timer et permet de suivre des rampes d acceleration
+    if (robotState.vitesseDroiteCommandeCourante < robotState.vitesseDroiteConsigne)
+        robotState.vitesseDroiteCommandeCourante = Min(
+            robotState.vitesseDroiteCommandeCourante + acceleration,
+            robotState.vitesseDroiteConsigne);
+    if (robotState.vitesseDroiteCommandeCourante > robotState.vitesseDroiteConsigne)
+        robotState.vitesseDroiteCommandeCourante = Max(
+            robotState.vitesseDroiteCommandeCourante - acceleration,
+            robotState.vitesseDroiteConsigne);
+    if (robotState.vitesseDroiteCommandeCourante >= 0) {
+        PDC1 = robotState.vitesseDroiteCommandeCourante * PWMPER + talon;
+        SDC1 = talon;
+    } else {
+        PDC1 = talon;
+        SDC1 = -robotState.vitesseDroiteCommandeCourante * PWMPER + talon;
+    }
+    if (robotState.vitesseGaucheCommandeCourante < robotState.vitesseGaucheConsigne)
+        robotState.vitesseGaucheCommandeCourante = Min(
+            robotState.vitesseGaucheCommandeCourante + acceleration,
+            robotState.vitesseGaucheConsigne);
+    if (robotState.vitesseGaucheCommandeCourante > robotState.vitesseGaucheConsigne)
+        robotState.vitesseGaucheCommandeCourante = Max(
+            robotState.vitesseGaucheCommandeCourante - acceleration,
+            robotState.vitesseGaucheConsigne);
+    if (robotState.vitesseGaucheCommandeCourante > 0) {
+        PDC2 = robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
+        SDC2 = talon;
+    } else {
+        PDC2 = talon;
+        SDC2 = -robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
     }
 }
