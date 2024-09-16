@@ -15,7 +15,9 @@ extern "C" {
 #endif
 
 void InitPWM(void);
-void PWMSetSpeed(float vitesseEnPourcents, _Bool moteur);
+void PWMSpeedConsigne(float vitesseEnPourcents, char moteur);
+void PWMUpdateSpeed();
+//void PWMSetSpeed(float vitesseEnPourcents, _Bool moteur);
 
 
 #ifdef	__cplusplus

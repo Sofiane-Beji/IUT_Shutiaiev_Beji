@@ -3,6 +3,7 @@
 #include "IO.h"
 #include "PWM.h"
 #include "Robot.h"
+#include "ADC.h"
 //Initialisation d?un timer 16 bits
 
 unsigned char toggle = 0;
@@ -10,7 +11,7 @@ unsigned char toggle = 0;
 void InitTimer1(void) {
     //Timer1 pour horodater les mesures (1ms)
     T1CONbits.TON = 0; // Disable Timer
-    T1CONbits.TCKPS = 0b11; //Prescaler
+    T1CONbits.TCKPS = 0b00; //Prescaler
     //11 = 1:256 prescale value
     //10 = 1:64 prescale value
     //01 = 1:8 prescale value
@@ -31,6 +32,9 @@ void InitTimer1(void) {
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     PWMUpdateSpeed();
+    //LED_BLANCHE_1 = 1;
+    LED_ORANGE_1 = !LED_ORANGE_1;
+    ADC1StartConversionSequence();
 }
 
 //Initialisation d?un timer 32 bits
@@ -51,11 +55,11 @@ void InitTimer23(void) {
     T2CONbits.TON = 1; // Start 32-bit Timer
 }
 //Interruption du timer 32 bits sur 2-3
-
-/*void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
-    IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
-    LED_ORANGE_1 = !LED_ORANGE_1;
-}*/
+//
+//void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+//    IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
+//    LED_ORANGE_1 = !LED_ORANGE_1;
+//}
 
 //Interruption du timer 32 bits sur 2-3
 
@@ -75,11 +79,13 @@ void InitTimer23(void) {
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     if (toggle == 0) {
-        robotState.vitesseDroiteConsigne = 10.00;
+//        robotState.vitesseDroiteConsigne = 10.00;
+        PWMSpeedConsigne(10.0,MOTEUR_DROIT);
         
         toggle = 1;
     } else {
-        robotState.vitesseDroiteConsigne = 30.00;
+//        robotState.vitesseDroiteConsigne = 30.00;
+        PWMSpeedConsigne(30.0,MOTEUR_DROIT);
         toggle = 0;
     }
 }

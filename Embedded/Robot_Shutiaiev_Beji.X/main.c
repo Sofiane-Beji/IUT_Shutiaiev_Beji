@@ -6,19 +6,19 @@
 #include "timer.h"
 #include "Toolbox.h"
 #include "PWM.h"
-
+#include "ADC.h"
 int main(void) {
 
     //Initialisation oscillateur
 
     InitOscillator();
-
-
+    InitADC1();
     InitTimer1();
     InitTimer23();
     InitPWM();
-    PWMSetSpeed(10, MOTEUR_DROIT);
-    PWMSetSpeed(-10, MOTEUR_GAUCHE);
+    
+    //PWMSetSpeed(, MOTEUR_DROIT);
+    //PWMSetSpeed(-10, MOTEUR_GAUCHE);
     
     
 

@@ -36,7 +36,7 @@ void InitPWM(void) {
 }
 double talon = 20;
 
-void PWMSetSpeed(float vitesseEnPourcents, _Bool moteur) {
+/*void PWMSetSpeed(float vitesseEnPourcents, _Bool moteur) {
     if (moteur == 0) {//moteur droit
         if (vitesseEnPourcents > 0) {
             PDC1 = vitesseEnPourcents * PWMPER + talon;
@@ -54,6 +54,15 @@ void PWMSetSpeed(float vitesseEnPourcents, _Bool moteur) {
             PDC2 = talon;
         }
     }
+}*/
+
+void PWMSpeedConsigne(float vitesseEnPourcents, char moteur){
+    if(moteur == 0){
+        robotState.vitesseDroiteConsigne = vitesseEnPourcents;
+    }else{
+        robotState.vitesseGaucheConsigne = vitesseEnPourcents;
+    }
+    
 }
 
 void PWMUpdateSpeed() {

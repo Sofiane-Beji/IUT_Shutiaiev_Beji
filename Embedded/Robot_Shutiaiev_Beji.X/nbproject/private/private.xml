@@ -3,9 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/ChipConfig.c</file>
             <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/main.c</file>
-            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/timer.c</file>
             <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/PWM.c</file>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/timer.c</file>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/ADC.h</file>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/timer.h</file>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/PWM.h</file>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/ADC.c</file>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/ChipConfig.h</file>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/IO.c</file>
+            <file>file:/C:/GitHub/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/Robot.h</file>
         </group>
     </open-files>
 </project-private>
