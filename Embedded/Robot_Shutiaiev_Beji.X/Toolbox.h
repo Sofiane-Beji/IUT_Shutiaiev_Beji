@@ -19,6 +19,7 @@ extern "C" {
     float LimitToInterval(float value, float lowLimit, float highLimit);
     float RadianToDegree(float value);
     float DegreeToRadian(float value);
+    float DistanceIR (int ADCValeur);
 
 
 #ifdef	__cplusplus

@@ -35,3 +35,7 @@ float RadianToDegree(float value) {
 float DegreeToRadian(float value) {
     return value * PI / 180.0;
 }
+
+float DistanceIR (int ADCValeur){
+    return 3079*pow(ADCValeur, -1.145);
+}

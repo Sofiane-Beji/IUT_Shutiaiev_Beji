@@ -1,5 +1,6 @@
 #include <xc.h>
 #include "adc.h"
+#include "Toolbox.h"
 unsigned char ADCResultIndex = 0;
 static unsigned int ADCResult[20];
 unsigned char ADCConversionFinishedFlag;
@@ -24,7 +25,7 @@ void InitADC1(void) {
     AD1CON2bits.VCFG = 0b000; // 000 : Voltage Reference = AVDD AVss
     AD1CON2bits.CSCNA = 1; // 1 : Enable Channel Scanning
     AD1CON2bits.CHPS = 0b00; // Converts CH0 only
-    AD1CON2bits.SMPI = 2; // 2+1 conversions successives avant interrupt
+    AD1CON2bits.SMPI = 4; // 4+1 conversions successives avant interrupt
     AD1CON2bits.ALTS = 0;
     AD1CON2bits.BUFM = 0;
     /************************************************************/
@@ -41,16 +42,18 @@ void InitADC1(void) {
     //Configuration des ports
     /************************************************************/
     //ADC éutiliss : 8(B8)-9(B9)-10(B10)
-    //ANSELBbits.ANSB8 = 1;
     ANSELBbits.ANSB9 = 1;
     ANSELBbits.ANSB10 = 1;
     ANSELBbits.ANSB0= 1;
-    //ANSELBbits.ANSB11 = 1;
+    ANSELBbits.ANSB8= 1;
+    ANSELBbits.ANSB11 = 1;
     
     //AD1CSSLbits.CSS8 = 1; // Enable AN8 for scan
     AD1CSSLbits.CSS9 = 1; // Enable AN9 for scan
     AD1CSSLbits.CSS10 = 1; // Enable AN10 for scan
     AD1CSSLbits.CSS0 = 1; // Enable AN10 for scan
+    AD1CSSLbits.CSS8 = 1; // Enable AN10 for scan
+    AD1CSSLbits.CSS11 = 1;
     /* Assign MUXA inputs */
     AD1CHS0bits.CH0SA = 0; // CH0SA bits ignored for CH0 +ve input selection
     AD1CHS0bits.CH0NA = 0; // Select VREF- for CH0 -ve inpu
@@ -62,19 +65,12 @@ void InitADC1(void) {
 /* This is ADC interrupt routine */
 void __attribute__((interrupt, no_auto_psv)) _AD1Interrupt(void) {
     IFS0bits.AD1IF = 0;
-    ADCResult[0] = ADC1BUF3; // Read the AN-scan input 1 conversion result
-    ADCResult[1] = ADC1BUF4; // Read the AN3 conversion result
-    ADCResult[2] = ADC1BUF5; // Read the AN5 conversion result
-    ADCResult[3] = ADC1BUF6; // Read the AN5 conversion result
-    ADCResult[4] = ADC1BUF7; // Read the AN5 conversion result
-    ADCResult[5] = ADC1BUF8; // Read the AN5 conversion result
-    ADCResult[6] = ADC1BUF9; // Read the AN5 conversion result
-    ADCResult[7] = ADC1BUFA; // Read the AN5 conversion result
-    ADCResult[8] = ADC1BUFB; // Read the AN5 conversion resultADCResult[2] = ADC1BUFC; // Read the AN5 conversion result
-    ADCResult[9] = ADC1BUFC; // Read the AN5 conversion result
-    ADCResult[10] = ADC1BUFD; // Read the AN5 conversion result
-    ADCResult[11] = ADC1BUFE; // Read the AN5 conversion result
-    ADCResult[12] = ADC1BUFF; // Read the AN5 conversion result
+    ADCResult[0] = ADC1BUF0; //ANA0
+    ADCResult[1] = ADC1BUF1; //ANA8
+    ADCResult[2] = ADC1BUF2; //ANA9
+    ADCResult[3] = ADC1BUF3; // ANA10
+    ADCResult[4] = ADC1BUF4; // ANA11
+    
     
     ADCConversionFinishedFlag = 1;
 }
