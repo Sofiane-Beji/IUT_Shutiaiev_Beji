@@ -20,6 +20,8 @@ float Min(float value, float value2) {
         return value2;
 }
 
+
+
 float LimitToInterval(float value, float lowLimit, float highLimit) {
     if (value > highLimit)
         value = highLimit;
