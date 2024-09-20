@@ -181,7 +181,37 @@ void avoidingObstacles(){
             robotState.distanceTelemetreDroit = 34 / volts - 5;
             volts = ((float) result [4])* 3.3 / 4096;
             robotState.distanceTelemetreExtremDroit = 34 / volts - 5;
+    }
+    
+    if(robotState.distanceTelemetreExtremGauche<30 && robotState.distanceTelemetreGauche>30 && robotState.distanceTelemetreExtremDroit>30 && robotState.distanceTelemetreCentre>30){
+        PWMSpeedConsigne(-15.0,MOTEUR_DROIT);
+        PWMSpeedConsigne(20.0,MOTEUR_GAUCHE);
+    }else if(robotState.distanceTelemetreGauche<30 && robotState.distanceTelemetreExtremDroit>30 && robotState.distanceTelemetreCentre>30){
+        PWMSpeedConsigne(-5.0,MOTEUR_DROIT);
+        PWMSpeedConsigne(20.0,MOTEUR_GAUCHE);
+    }else if(robotState.distanceTelemetreExtremDroit<30 && robotState.distanceTelemetreDroit>30 && robotState.distanceTelemetreExtremGauche>30 && robotState.distanceTelemetreCentre>30){
+        PWMSpeedConsigne(-20.0,MOTEUR_DROIT);
+        PWMSpeedConsigne(15.0,MOTEUR_GAUCHE);
+    }else if(robotState.distanceTelemetreDroit<30 && robotState.distanceTelemetreExtremGauche>30 && robotState.distanceTelemetreCentre>30){
+        PWMSpeedConsigne(-20.0,MOTEUR_DROIT);
+        PWMSpeedConsigne(5.0,MOTEUR_GAUCHE);
+    }else if(robotState.distanceTelemetreExtremGauche<30 && robotState.distanceTelemetreGauche<30 && robotState.distanceTelemetreDroit<30 && robotState.distanceTelemetreExtremDroit<30){
+        PWMSpeedConsigne(10.0,MOTEUR_DROIT);
+        PWMSpeedConsigne(10.0,MOTEUR_GAUCHE);
+    }else if(robotState.distanceTelemetreCentre<30){
+        if(robotState.distanceTelemetreExtremGauche<robotState.distanceTelemetreExtremDroit || robotState.distanceTelemetreGauche<robotState.distanceTelemetreDroit){
+            PWMSpeedConsigne(-5.0,MOTEUR_DROIT);
+            PWMSpeedConsigne(20.0,MOTEUR_GAUCHE);
+        }else if(robotState.distanceTelemetreExtremGauche>robotState.distanceTelemetreExtremDroit || robotState.distanceTelemetreGauche>robotState.distanceTelemetreDroit){
+            PWMSpeedConsigne(-20.0,MOTEUR_DROIT);
+            PWMSpeedConsigne(5.0,MOTEUR_GAUCHE);
         }
+    }else{
+        PWMSpeedConsigne(-20.0,MOTEUR_DROIT);
+        PWMSpeedConsigne(20.0,MOTEUR_GAUCHE);
+    }
+    
+    
     
 //    if(robotState.distanceTelemetreExtremGauche<30){
 //        PWMSpeedConsigne(5.0,MOTEUR_DROIT);
@@ -191,16 +221,16 @@ void avoidingObstacles(){
 //        PWMSpeedConsigne(20.0,MOTEUR_GAUCHE);
 //    }
     
-    int i1;
-    int i2;
-    int i3;
-    if(robotState.distanceTelemetreCentre < 30){i1 = 1;}
-    else{i1 = 0;}
-    if(robotState.distanceTelemetreExtremGauche < 30 || robotState.distanceTelemetreGauche < 30){i2 = 1;}
-    else{i2 = 0;}
-    if(robotState.distanceTelemetreDroit < 30 || robotState.distanceTelemetreExtremDroit < 30){i3 = 1;}
-    else{i3 = 0;}
-    
-    if(i1 == 0){PWMSpeedConsigne(-20.0,MOTEUR_DROIT);}else{PWMSpeedConsigne(0.0,MOTEUR_DROIT);}
-    if((i2 == 0 && i1 == 0 && i3 == 0) || i1 == 1){PWMSpeedConsigne(20.0,MOTEUR_GAUCHE);}else{PWMSpeedConsigne(0.0,MOTEUR_GAUCHE);}
+//    int i1;
+//    int i2;
+//    int i3;
+//    if(robotState.distanceTelemetreCentre < 30){i1 = 1;}
+//    else{i1 = 0;}
+//    if(robotState.distanceTelemetreExtremGauche < 30 || robotState.distanceTelemetreGauche < 30){i2 = 1;}
+//    else{i2 = 0;}
+//    if(robotState.distanceTelemetreDroit < 30 || robotState.distanceTelemetreExtremDroit < 30){i3 = 1;}
+//    else{i3 = 0;}
+//
+//    if(i1 == 0){PWMSpeedConsigne(-20.0,MOTEUR_DROIT);}else{PWMSpeedConsigne(0.0,MOTEUR_DROIT);}
+//    if((i2 == 0 && i1 == 0 && i3 == 0) || i1 == 1){PWMSpeedConsigne(20.0,MOTEUR_GAUCHE);}else{PWMSpeedConsigne(0.0,MOTEUR_GAUCHE);}
 }
