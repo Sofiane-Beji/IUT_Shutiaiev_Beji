@@ -19,6 +19,7 @@ int main(void) {
     InitIO();
     InitADC1();
     InitTimer1();
+
     InitTimer23();
     InitPWM();
 
@@ -36,7 +37,7 @@ int main(void) {
 
 
     // Boucle Principale
-
+    robotState.avoidingObstaclesBool = 1;
     while (1) {
         //LED_BLANCHE_1 = !LED_BLANCHE_1;
         

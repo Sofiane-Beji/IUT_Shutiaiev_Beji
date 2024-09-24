@@ -97,4 +97,17 @@ void PWMUpdateSpeed() {
         PDC2 = talon;
         SDC2 = -robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
     }
+    
+    if(robotState.vitesseGaucheCommandeCourante <= -30.0 && robotState.vitesseDroiteCommandeCourante >= 30.0)
+    {
+        LED_BLEUE_2 = 1;
+        LED_ROUGE_2 = 1;
+        LED_ORANGE_2 = 1;
+    }
+    else
+    {
+        LED_BLEUE_2 = 0;
+        LED_ROUGE_2 = 0;
+        LED_ORANGE_2 = 0;
+    }
 }
