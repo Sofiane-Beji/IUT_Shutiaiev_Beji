@@ -57,10 +57,10 @@ double talon = 20;
 }*/
 
 void PWMSpeedConsigne(float vitesseEnPourcents, char moteur){
-    if(moteur == 0){
+    if(moteur == 1){
         robotState.vitesseDroiteConsigne = vitesseEnPourcents;
     }else{
-        robotState.vitesseGaucheConsigne = vitesseEnPourcents;
+        robotState.vitesseGaucheConsigne = -vitesseEnPourcents;
     }
     
 }

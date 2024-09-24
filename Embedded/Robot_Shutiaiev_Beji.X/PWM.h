@@ -27,4 +27,4 @@ void PWMUpdateSpeed();
 #endif	/* PWM_H */
 
 #define MOTEUR_DROIT 1
-#define MOTEUR_GAUCHE 0
+#define MOTEUR_GAUCHE 2
