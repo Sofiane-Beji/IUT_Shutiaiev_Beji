@@ -9,6 +9,7 @@
 //Initialisation d?un timer 16 bits
 
 unsigned char toggle = 0;
+_Bool STOP = 0;
 
 void SetFreqTimer1(float freq) {
     T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
@@ -84,12 +85,7 @@ void InitTimer23(void) {
     IEC0bits.T3IE = 1; // Enable Timer3 interrupt
     T2CONbits.TON = 1; // Start 32-bit Timer
 }
-//Interruption du timer 32 bits sur 2-3
-//
-//void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
-//    IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
-//    LED_ORANGE_1 = !LED_ORANGE_1;
-//}
+
 
 //Interruption du timer 32 bits sur 2-3
 
@@ -108,6 +104,12 @@ void InitTimer23(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
+    LED_VERTE_2 = !LED_VERTE_2;
+    static int chrono = 0;
+    chrono = chrono + 2;
+    if(chrono >= 60){
+        STOP = 1;
+    }
 //    if (toggle == 0) {
 ////        robotState.vitesseDroiteConsigne = 10.00;
 //        PWMSpeedConsigne(10.0,MOTEUR_DROIT);

@@ -42,12 +42,12 @@ int main(void) {
         //LED_BLANCHE_1 = !LED_BLANCHE_1;
         
         
-        if(robotState.distanceTelemetreExtremGauche<30.0){
+        if(robotState.distanceTelemetreExtremGauche<38.0){
             LED_BLANCHE_1 = 1;
         }else{
             LED_BLANCHE_1 = 0;
         }
-        if(robotState.distanceTelemetreGauche<30.0){
+        if(robotState.distanceTelemetreGauche<29.0){
             LED_BLEUE_1 = 1;
         }else{
             LED_BLEUE_1 = 0;
@@ -57,12 +57,12 @@ int main(void) {
         }else{
             LED_ORANGE_1 = 0;
         }
-        if(robotState.distanceTelemetreDroit<30.0){
+        if(robotState.distanceTelemetreDroit<29.0){
             LED_ROUGE_1 = 1;
         }else{
             LED_ROUGE_1 = 0;
         }
-        if(robotState.distanceTelemetreExtremDroit<30.0){
+        if(robotState.distanceTelemetreExtremDroit<38.0){
             LED_VERTE_1 = 1;
         }else{
             LED_VERTE_1 = 0;
