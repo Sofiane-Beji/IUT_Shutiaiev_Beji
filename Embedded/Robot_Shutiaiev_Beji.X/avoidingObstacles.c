@@ -207,7 +207,7 @@ void avoidingObstacles() {
 
     int sensorCase = 0;
     float limitS = 30.0; //44.0
-    float limitSs = 38.0; //52.0
+    float limitSs = 45.0; //52.0
 
     if (robotState.distanceTelemetreExtremDroit <= limitSs) {
         sensorCase += 0b10000;
@@ -302,10 +302,10 @@ void avoidingObstacles() {
             break;
         case 10:// 1/2 TOUR GAUCHE
             PWMSpeedConsigne(speedNormal-5, MOTEUR_DROIT);
-            PWMSpeedConsigne(-speedNormal+5, MOTEUR_GAUCHE);
+            PWMSpeedConsigne(-speedNormal+15, MOTEUR_GAUCHE);
             break;
         case 12:// 1/2 TOUR DROIT
-            PWMSpeedConsigne(-speedNormal+5, MOTEUR_DROIT);
+            PWMSpeedConsigne(-speedNormal+15, MOTEUR_DROIT);
             PWMSpeedConsigne(speedNormal-5, MOTEUR_GAUCHE);
             break;
         case 20: // ARRET
