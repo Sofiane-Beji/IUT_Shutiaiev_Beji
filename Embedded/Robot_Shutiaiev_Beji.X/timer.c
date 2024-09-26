@@ -9,7 +9,7 @@
 //Initialisation d?un timer 16 bits
 
 unsigned char toggle = 0;
-_Bool STOP = 0;
+_Bool STOP = 1;
 
 void SetFreqTimer1(float freq) {
     T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
@@ -30,19 +30,19 @@ void SetFreqTimer1(float freq) {
 
 void InitTimer1(void) {
 
-        //Timer1 pour horodater les mesures (1ms)
-        T1CONbits.TON = 0; // Disable Timer
-////        T1CONbits.TCKPS = 0b00; //Prescaler
-////        //11 = 1:256 prescale value
-////        //10 = 1:64 prescale value
-////        //01 = 1:8 prescale value
-////        //00 = 1:1 prescale value
-        SetFreqTimer1(5000.0);
-        T1CONbits.TCS = 0; //clock source = internal clock
-        
-        IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
-        IEC0bits.T1IE = 1; // Enable Timer interrupt
-        T1CONbits.TON = 1; // Enable Timer
+    //Timer1 pour horodater les mesures (1ms)
+    T1CONbits.TON = 0; // Disable Timer
+    ////        T1CONbits.TCKPS = 0b00; //Prescaler
+    ////        //11 = 1:256 prescale value
+    ////        //10 = 1:64 prescale value
+    ////        //01 = 1:8 prescale value
+    ////        //00 = 1:1 prescale value
+    SetFreqTimer1(5000.0);
+    T1CONbits.TCS = 0; //clock source = internal clock
+
+    IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
+    IEC0bits.T1IE = 1; // Enable Timer interrupt
+    T1CONbits.TON = 1; // Enable Timer
 }
 //Interruption du timer 1
 
@@ -65,7 +65,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
         toggle = 0;
     }
     avoidingObstacles();
-    
+
 }
 
 //Initialisation d?un timer 32 bits
@@ -103,24 +103,34 @@ void InitTimer23(void) {
 }*/
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+    static _Bool a = 0;
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
-    LED_VERTE_2 = !LED_VERTE_2;
-    static int chrono = 0;
-    chrono = chrono + 2;
-    if(chrono >= 60){
-        STOP = 1;
+    if (TIME1 == 1) {
+        STOP = 0;
+        a = 1;
     }
-//    if (toggle == 0) {
-////        robotState.vitesseDroiteConsigne = 10.00;
-//        PWMSpeedConsigne(10.0,MOTEUR_DROIT);
-//        
-//        toggle = 1;
-//    } else {
-////        robotState.vitesseDroiteConsigne = 30.00;
-//        PWMSpeedConsigne(30.0,MOTEUR_DROIT);
-//        toggle = 0;
-//    }
-    
+    if (a == 1) {
+        LED_VERTE_2 = !LED_VERTE_2;
+        static int chrono = 0;
+        chrono++;
+        if (chrono >= 60) {
+            STOP = 1;
+            a = 0;
+            chrono = 0;
+        }
+    }
+
+    //    if (toggle == 0) {
+    ////        robotState.vitesseDroiteConsigne = 10.00;
+    //        PWMSpeedConsigne(10.0,MOTEUR_DROIT);
+    //        
+    //        toggle = 1;
+    //    } else {
+    ////        robotState.vitesseDroiteConsigne = 30.00;
+    //        PWMSpeedConsigne(30.0,MOTEUR_DROIT);
+    //        toggle = 0;
+    //    }
+
 }
 
 /*void avoidingObstacles()
