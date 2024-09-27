@@ -11,6 +11,9 @@
 unsigned char toggle = 0;
 _Bool STOP = 1;
 
+
+
+
 void SetFreqTimer1(float freq) {
     T1CONbits.TCKPS = 0b00; //00 = 1:1 prescaler value
     if (FCY / freq > 65535) {
@@ -104,6 +107,19 @@ void InitTimer23(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     static _Bool a = 0;
+    
+    if(robotState.delay == 1)
+    {
+        robotState.delayTime -= 1;
+    }
+    if(robotState.delayTime > 0)
+    {
+        PWMSpeedConsigne(-20, MOTEUR_DROIT);
+        PWMSpeedConsigne(20, MOTEUR_GAUCHE);
+        robotState.avoidingObstaclesBool = 0;
+    }
+    else{robotState.delay == 0;robotState.avoidingObstaclesBool = 1;}
+    
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     if (TIME1 == 1) {
         STOP = 0;

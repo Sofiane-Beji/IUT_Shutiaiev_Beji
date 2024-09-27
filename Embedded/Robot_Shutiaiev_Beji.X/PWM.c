@@ -7,7 +7,7 @@
 #define PWMPER 24.0
 
 
-float acceleration = 0.5;
+float acceleration = 0.7;
 
 void InitPWM(void) {
     PTCON2bits.PCLKDIV = 0b000; //Divide by 1
@@ -34,7 +34,7 @@ void InitPWM(void) {
     /* Enable PWM Module */
     PTCONbits.PTEN = 1;
 }
-double talon = 20;
+double talon = 50;
 
 /*void PWMSetSpeed(float vitesseEnPourcents, _Bool moteur) {
     if (moteur == 0) {//moteur droit
@@ -98,7 +98,7 @@ void PWMUpdateSpeed() {
         SDC2 = -robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
     }
     
-    if(robotState.vitesseGaucheCommandeCourante <= -22.0 && robotState.vitesseDroiteCommandeCourante >= 22.0)
+    if(robotState.vitesseGaucheCommandeCourante <= -23.0 && robotState.vitesseDroiteCommandeCourante >= 23.0)
     {
         LED_BLEUE_2 = 1;
         LED_ROUGE_2 = 1;
