@@ -24,9 +24,9 @@
         </GroupBox>
 
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
-            <Button x:Name="boutonEnvoyer"  Content="Send"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" />
-            <Button x:Name="boutonClear" Content="Clear" Height="30" Width="100" Margin="5" Background="#FFDFFFC6"/>
-            <Button x:Name="boutonTest"  Content="Test"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6"/>
+            <Button x:Name="boutonEnvoyer"  Content="Send"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="BoutonEnvoyer_Click_1" />
+            <Button x:Name="boutonClear" Content="Clear" Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonClear_Click"/>
+            <Button x:Name="boutonTest"  Content="Test"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonTest_Click"/>
         </StackPanel>
         
         
