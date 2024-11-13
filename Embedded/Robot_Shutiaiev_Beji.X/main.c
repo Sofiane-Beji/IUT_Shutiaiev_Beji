@@ -8,7 +8,7 @@
 #include "PWM.h"
 #include "ADC.h"
 #include "Robot.h"
-
+#include "UART.h"
 
 
 int main(void) {
@@ -22,7 +22,8 @@ int main(void) {
 
     InitTimer23();
     InitPWM();
-
+    
+    InitUART();
     //PWMSetSpeed(, MOTEUR_DROIT);
     //PWMSetSpeed(-10, MOTEUR_GAUCHE);
 
@@ -33,13 +34,20 @@ int main(void) {
     LED_BLEUE_1 = 1;
     LED_ROUGE_1 = 1;
     LED_VERTE_1 = 1;
-    
+
+
+    for (int i = 0; i < CB_RX1_GetDataSize(); i++) {
+        unsigned char c = CB_RX1_Get();
+        SendMessage(&c, 1);
+    }
+    __delay32(1000);
 
 
     // Boucle Principale
     robotState.avoidingObstaclesBool = 1;
     while (1) {
         //LED_BLANCHE_1 = !LED_BLANCHE_1;
+
         
         
         if(robotState.distanceTelemetreExtremGauche<20.0){

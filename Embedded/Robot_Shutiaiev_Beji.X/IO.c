@@ -26,7 +26,7 @@ void InitIO()
     _TRISJ11 = 0; _TRISA10 = 0;// LED Rouge
     _TRISH10 = 0; _TRISH3 = 0;// LED Verte 
     
-
+    
     
     //****** Moteurs ************************
 
@@ -39,7 +39,8 @@ void InitIO()
     UnlockIO(); // On unlock les registres d'entrées/sorties, ainsi que les registres des PPS
     
     //Assignation des remappable pins
-        
+    _U2RXR = 18; //Remappe la RP... sur l?éentre Rx1
+    _RP98R = 0b00011; //Remappe la sortie Tx1 vers RP...
     LockIO(); // On lock les registres d'entrées/sorties, ainsi que les registres des PPS
 }
 
@@ -51,6 +52,7 @@ void LockIO() {
                 "mov.b w2,[w1] \n"
                 "mov.b w3,[w1] \n"
                 "bset OSCCON, #6":: : "w1", "w2", "w3");
+    
 }
 
 void UnlockIO() {

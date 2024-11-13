@@ -32,12 +32,12 @@ namespace RobotInterface
         DispatcherTimer timerAffichage;
         Robot robot = new Robot();
 
-        Queue<byte> byteListReceived = new Queue<byte>();
+        
 
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ExtendedSerialPort("COM10", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -46,16 +46,17 @@ namespace RobotInterface
             timerAffichage.Start();
 
         }
-
+   
         private void TimerAffichage_Tick1(object? sender, EventArgs e)
         {
-            string tempLine = "";
-            for (int i = 0; i < byteListReceived.Count; i++) {
-                tempLine += (byteListReceived.Dequeue()).ToString() + ' ';
-               
-                robot.receivedText = "";
+            //byte[] temp = new byte[20];
+            for (int i = 0; i < robot.byteListReceived.Count; i++) {
+                //temp[i] = byteListReceived.Dequeue();
+                TextBoxReception.Text += robot.byteListReceived.Dequeue().ToString("X2") + " ";
             }
-            TextBoxReception.Text += tempLine;
+            //TextBoxReception.Text += Encoding.UTF8.GetString(temp);
+
+
         }
 
         private void TextBoxEmission_TextChanged()
@@ -112,7 +113,7 @@ namespace RobotInterface
         {
             for (int i = 0; i < e.Data.Length; i++) 
             {
-                byteListReceived.Enqueue(e.Data[i]);
+                robot.byteListReceived.Enqueue(e.Data[i]);
             }
             
             //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
