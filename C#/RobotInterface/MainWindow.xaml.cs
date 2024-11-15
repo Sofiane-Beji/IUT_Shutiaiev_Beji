@@ -49,12 +49,12 @@ namespace RobotInterface
    
         private void TimerAffichage_Tick1(object? sender, EventArgs e)
         {
-            //byte[] temp = new byte[20];
+            byte[] temp = new byte[20];
             for (int i = 0; i < robot.byteListReceived.Count; i++) {
-                //temp[i] = byteListReceived.Dequeue();
-                TextBoxReception.Text += robot.byteListReceived.Dequeue().ToString("X2") + " ";
+                temp[i] = robot.byteListReceived.Dequeue();
+                //TextBoxReception.Text += robot.byteListReceived.Dequeue().ToString("X2") + " ";
             }
-            //TextBoxReception.Text += Encoding.UTF8.GetString(temp);
+            TextBoxReception.Text += Encoding.UTF8.GetString(temp);
 
 
         }
@@ -104,18 +104,19 @@ namespace RobotInterface
                 TextBoxEmission.Text = "";
             
 
-                serialPort1.WriteLine((val.Replace("\r\n", string.Empty)) + "\r\n");
+                serialPort1.Write((val.Replace("\r\n", string.Empty)) + "\r\n");
             }
             else { TextBoxEmission.Text = ""; }
         }
 
         public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            for (int i = 0; i < e.Data.Length; i++) 
+            for (int i = 0; i < e.Data.Length; i++)
             {
                 robot.byteListReceived.Enqueue(e.Data[i]);
             }
-            
+
+
             //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
         }
 

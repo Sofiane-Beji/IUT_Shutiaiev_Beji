@@ -9,8 +9,8 @@
 #include "ADC.h"
 #include "Robot.h"
 #include "UART.h"
-
-
+#include "CB_TX2.h"
+#include "CB_RX2.h"
 int main(void) {
 
     //Initialisation oscillateur
@@ -36,19 +36,19 @@ int main(void) {
     LED_VERTE_1 = 1;
 
 
-    for (int i = 0; i < CB_RX1_GetDataSize(); i++) {
-        unsigned char c = CB_RX1_Get();
-        SendMessage(&c, 1);
-    }
-    __delay32(1000);
+    
 
 
     // Boucle Principale
     robotState.avoidingObstaclesBool = 1;
     while (1) {
-        //LED_BLANCHE_1 = !LED_BLANCHE_1;
 
-        
+        //LED_BLANCHE_1 = !LED_BLANCHE_1;
+        for (int i = 0; i < CB_RX2_GetDataSize(); i++) {
+            unsigned char c = CB_RX2_Get();
+            SendMessage(&c, 1);
+        }
+        __delay32(1000);
         
         if(robotState.distanceTelemetreExtremGauche<20.0){
             LED_BLANCHE_1 = 1;

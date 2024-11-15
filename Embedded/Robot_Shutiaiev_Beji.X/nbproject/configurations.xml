@@ -14,7 +14,8 @@
       <itemPath>avoidingObstacles.h</itemPath>
       <itemPath>main.h</itemPath>
       <itemPath>UART.h</itemPath>
-      <itemPath>CB_TX2.H</itemPath>
+      <itemPath>CB_TX2.h</itemPath>
+      <itemPath>CB_RX2.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -39,6 +40,7 @@
       <itemPath>avoidingObstacles.c</itemPath>
       <itemPath>UART.c</itemPath>
       <itemPath>CB_TX2.c</itemPath>
+      <itemPath>CB_RX2.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
