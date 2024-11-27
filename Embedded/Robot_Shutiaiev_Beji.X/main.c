@@ -11,6 +11,7 @@
 #include "UART.h"
 #include "CB_TX2.h"
 #include "CB_RX2.h"
+
 int main(void) {
 
     //Initialisation oscillateur
@@ -47,7 +48,9 @@ int main(void) {
         for (int i = 0; i < CB_RX2_GetDataSize(); i++) {
             unsigned char c = CB_RX2_Get();
             SendMessage(&c, 1);
+            
         }
+        
         __delay32(1000);
         
         if(robotState.distanceTelemetreExtremGauche<20.0){

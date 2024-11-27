@@ -37,7 +37,7 @@ namespace RobotInterface
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ExtendedSerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -49,12 +49,12 @@ namespace RobotInterface
    
         private void TimerAffichage_Tick1(object? sender, EventArgs e)
         {
-            byte[] temp = new byte[20];
+            byte[] temp = new byte[129];
             for (int i = 0; i < robot.byteListReceived.Count; i++) {
                 temp[i] = robot.byteListReceived.Dequeue();
-                //TextBoxReception.Text += robot.byteListReceived.Dequeue().ToString("X2") + " ";
+                TextBoxReception.Text += robot.byteListReceived.Dequeue().ToString("X2") + " ";
             }
-            TextBoxReception.Text += Encoding.UTF8.GetString(temp);
+            //TextBoxReception.Text += Encoding.UTF8.GetString(temp);
 
 
         }
@@ -67,9 +67,45 @@ namespace RobotInterface
         private void TextBoxEmission_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+
         }
 
+        void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload) {
+            byte tram = 0xFE;
+            tram |= (byte)(msgFunction >> 16);
+            tram |= (byte)(msgPayloadLength >> 32);
+            int size = 32;
+            for (int i = 0; i < msgPayload.Length; i++)
+            {
+                size = i * 8;
+                tram |= (byte)(msgPayload[i] >> size);
+            }
+            byte checkSum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload); 
+            tram |= (byte)(checkSum >> size + 8);
+            for (int i = 0; i < size + 8; i++)
+            {
+                serialPort1.Write(tram[i]);
+            }
+
+        }
         //bool a = false;
+        byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            byte checksum = 0;
+            checksum ^= 0xFE;
+            checksum ^= (byte)(msgFunction >> 8);
+            checksum ^= (byte)(msgFunction >> 0);
+            checksum ^= (byte)(msgPayloadLength >> 8);
+            checksum ^= (byte)(msgPayloadLength >> 0);
+
+
+            for (int i = 0; i < msgPayload.Length ; i++) 
+            {
+                checksum ^= msgPayload[i];
+            }
+            return checksum;
+
+        }
 
         private void BoutonEnvoyer_Click_1(object sender, RoutedEventArgs e)
         {
@@ -127,13 +163,10 @@ namespace RobotInterface
 
         private void boutonTest_Click(object sender, RoutedEventArgs e)
         {
-            byte[] byteList = new byte[20];
-            for(int i = 0; i < byteList.Length; i++)
-            {
-                byteList[i] = (byte)(2 * i);
-                serialPort1.Write(byteList[i].ToString());
-            }
-            
+            byte[] array = Encoding.ASCII.GetBytes("Bonjour");
+            UartEncodeAndSendMessage(0x0080, array.Length, array);
+
+
         }
     }
 }

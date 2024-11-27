@@ -13,10 +13,12 @@ extern "C" {
 #endif
 
 void CB_RX2_Add(unsigned char value);
+void clearBuffer();
 unsigned char CB_RX2_Get(void);
 unsigned char CB_RX2_IsDataAvailable(void);
 int CB_RX2_GetDataSize(void);
 int CB_RX2_GetRemainingSize(void);
+
 
 
 #ifdef	__cplusplus

@@ -26,12 +26,16 @@ void SendMessage(unsigned char* message, int length) {
 
 void CB_TX2_Add(unsigned char value) {
     cbTx2Buffer[cbTx2Tail] = value;
+    if(cbTx2Tail >= CBTX2_BUFFER_SIZE)
+        cbTx2Tail = 0;
     cbTx2Tail++;
     
 }
 
 unsigned char CB_TX2_Get(void) {
     cbTx2Head++;
+    if(cbTx2Head >= CBTX2_BUFFER_SIZE)
+        cbTx2Head = 0;
     return cbTx2Buffer[cbTx2Head - 1];
     
 }
@@ -47,16 +51,9 @@ void __attribute__((interrupt, no_auto_psv)) _U2TXInterrupt(void) {
 }
 
 void SendOne() {
-    
-        
-    
     isTransmitting = 1;
     unsigned char value = CB_TX2_Get();
-    if (cbTx2Tail != cbTx2Head)
-    {
-        cbTx2Tail = 0;
-        cbTx2Head = 0;
-    }
+
     U2TXREG = value; // Transmit one character
 }
 
@@ -65,13 +62,15 @@ void SendOne() {
 int CB_TX2_GetDataSize(void) {
     //return size of data stored in circular buffer
     int dataSize =   cbTx2Tail - cbTx2Head;
-    
+    if(cbTx2Tail < cbTx2Head)
+        return cbTx2Tail + (CBTX2_BUFFER_SIZE - cbTx2Head);
+   
     return dataSize;
 }
 
 int CB_TX2_GetRemainingSize(void) {
     //return size of remaining size in circular buffer
-    int remainingSize = CBTX2_BUFFER_SIZE - cbTx2Tail;
+    int remainingSize = CBTX2_BUFFER_SIZE - CB_TX2_GetDataSize();
     
     return remainingSize;
 }

@@ -9,15 +9,25 @@ int cbRx2Head;
 int cbRx2Tail;
 unsigned char cbRx2Buffer[CBRX2_BUFFER_SIZE];
 
+void clearBuffer(){
+    cbRx2Head = 0;
+    cbRx2Tail = 0;
+}
+
 void CB_RX2_Add(unsigned char value) {
     if (CB_RX2_GetRemainingSize() > 0) {
-        
+        if(cbRx2Tail >= CBRX2_BUFFER_SIZE)
+            cbRx2Tail = 0;
         cbRx2Buffer[cbRx2Tail] = value;
         cbRx2Tail++;
+        
+        
     }
 }
 
 unsigned char CB_RX2_Get(void) {
+    if(cbRx2Head >= CBRX2_BUFFER_SIZE)
+            cbRx2Head = 0;
     unsigned char value = cbRx2Buffer[cbRx2Head];
     cbRx2Head++;
     
@@ -49,14 +59,14 @@ void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void) {
 }
 
 int CB_RX2_GetDataSize(void) {
-
-    int dataSize =  cbRx2Tail - cbRx2Head;
-    return dataSize;
+    if(cbRx2Tail < cbRx2Head)
+        return cbRx2Tail + (CBRX2_BUFFER_SIZE - cbRx2Head);
+    return cbRx2Tail - cbRx2Head;;
 }
 
 int CB_RX2_GetRemainingSize(void) {
     //return size of remaining size in circular buffer
-    int remainingSize = CBRX2_BUFFER_SIZE - cbRx2Tail;
+    int remainingSize = CBRX2_BUFFER_SIZE - CB_RX2_GetDataSize();
     
     return remainingSize;
 }
