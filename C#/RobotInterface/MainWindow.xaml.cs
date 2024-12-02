@@ -14,11 +14,11 @@ using System.IO.Ports;
 using System.Diagnostics.Tracing;
 using System.Runtime.Serialization;
 using System.Windows.Threading;
-
-
-
 namespace RobotInterface
 {
+
+
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -31,13 +31,17 @@ namespace RobotInterface
         ExtendedSerialPort serialPort1;
         DispatcherTimer timerAffichage;
         Robot robot = new Robot();
+        reception reception = new reception();
 
-        
+        public void textReceivedAdd(string textReceived)
+        {
+            TextBoxReception.Text += textReceived;
+        }
 
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ExtendedSerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -45,14 +49,19 @@ namespace RobotInterface
             timerAffichage.Tick += TimerAffichage_Tick1;
             timerAffichage.Start();
 
+
+            
         }
    
         private void TimerAffichage_Tick1(object? sender, EventArgs e)
         {
             byte[] temp = new byte[129];
             for (int i = 0; i < robot.byteListReceived.Count; i++) {
-                temp[i] = robot.byteListReceived.Dequeue();
-                TextBoxReception.Text += robot.byteListReceived.Dequeue().ToString("X2") + " ";
+                //temp[i] = robot.byteListReceived.Dequeue();
+                byte receivedByte = robot.byteListReceived.Dequeue();
+                textReceivedAdd(receivedByte.ToString("X2"));
+                reception.CallDecodeMessage(receivedByte);
+                //TextBoxReception.Text += robot.byteListReceived.Dequeue()
             }
             //TextBoxReception.Text += Encoding.UTF8.GetString(temp);
 
@@ -71,21 +80,23 @@ namespace RobotInterface
         }
 
         void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload) {
-            byte tram = 0xFE;
-            tram |= (byte)(msgFunction >> 16);
-            tram |= (byte)(msgPayloadLength >> 32);
-            int size = 32;
-            for (int i = 0; i < msgPayload.Length; i++)
+            byte[] tram = new byte[6 + msgPayloadLength];
+            tram[0] = 0xFE;
+            tram[1] = (byte)(msgFunction >> 8);
+            tram[2] = (byte)(msgFunction);
+            tram[3] = (byte)(msgPayloadLength >> 8);
+            tram[4] = (byte)(msgPayloadLength);
+
+            for (int i = 5; i < msgPayload.Length + 5; i++)
             {
-                size = i * 8;
-                tram |= (byte)(msgPayload[i] >> size);
+               
+                tram[i] = (byte)(msgPayload[i - 5]);
             }
-            byte checkSum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload); 
-            tram |= (byte)(checkSum >> size + 8);
-            for (int i = 0; i < size + 8; i++)
-            {
-                serialPort1.Write(tram[i]);
-            }
+            byte checkSum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+            tram[5 + msgPayloadLength] = checkSum;
+            serialPort1.Write(tram, 0, 6 + msgPayloadLength);
+            
+            
 
         }
         //bool a = false;
@@ -133,16 +144,37 @@ namespace RobotInterface
 
         private void SendMessage()
         {
-            string val = TextBoxEmission.Text;
+            bool textFormat = (bool)textCheckBox.IsChecked;
+            bool LEDFormat = (bool)ledCheckBox.IsChecked;
+            bool speedtFormat = (bool)speedCheckBox.IsChecked;
+            bool distFormat = (bool)distCheckBox.IsChecked;
 
-            if (val != "" && val.Replace("\r\n", string.Empty) != "")
-            {
-                TextBoxEmission.Text = "";
+            byte[] bytesToSend = Encoding.ASCII.GetBytes(TextBoxEmission.Text);
             
 
-                serialPort1.Write((val.Replace("\r\n", string.Empty)) + "\r\n");
+            if (textFormat && LEDFormat && speedtFormat && distFormat)
+            { }
+            else if (textFormat)
+            {
+                UartEncodeAndSendMessage(0x0080, bytesToSend.Length, bytesToSend);
             }
-            else { TextBoxEmission.Text = ""; }
+            else if (LEDFormat)
+            {
+                UartEncodeAndSendMessage(0x0020, bytesToSend.Length, bytesToSend);
+            }
+            else if (speedtFormat)
+            {
+                UartEncodeAndSendMessage(0x0040, bytesToSend.Length, bytesToSend);
+            }
+            else if (distFormat)
+            {
+                UartEncodeAndSendMessage(0x0030, bytesToSend.Length, bytesToSend);
+            }
+            else { TextBoxReception.Text += "At least one format has to be choosen\n"; }
+            TextBoxEmission.Text = "";
+
+
+
         }
 
         public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
@@ -163,9 +195,26 @@ namespace RobotInterface
 
         private void boutonTest_Click(object sender, RoutedEventArgs e)
         {
-            byte[] array = Encoding.ASCII.GetBytes("Bonjour");
-            UartEncodeAndSendMessage(0x0080, array.Length, array);
+            //byte[] array = Encoding.ASCII.GetBytes("Bonjour");
+            //UartEncodeAndSendMessage(0x0080, array.Length, array);
+            string text = "Bonjour";
+            byte[] temp = Encoding.ASCII.GetBytes(text);
+            UartEncodeAndSendMessage(0x0080, temp.Length, temp);
 
+        }
+      
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TextBoxReception_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
 
         }
     }

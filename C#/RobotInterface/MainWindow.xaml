@@ -8,29 +8,48 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="337*"/>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        
+
         <GroupBox Header="Reception" Background="#FFAEDFFF"  Grid.Row="0" Grid.Column="1">
-            <TextBox x:Name="TextBoxReception" TextWrapping="Wrap" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            <TextBox x:Name="TextBoxReception" TextWrapping="Wrap" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="TextBoxReception_TextChanged"/>
         </GroupBox>
         <GroupBox Header="Emission" BorderBrush="Black" Background="#FFDFFFB3" Grid.Column="0" Grid.Row="0" >
-            <TextBox x:Name="TextBoxEmission" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="{x:Null}" AcceptsReturn="True" TextChanged="TextBoxEmission_TextChanged" KeyUp="TextBoxEmission_KeyUp_1"/>
+            <TextBox x:Name="TextBoxEmission" TextWrapping="Wrap" IsReadOnly="False" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="TextBoxReception_TextChanged"/>
         </GroupBox>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,1,0,0" Width="330" Grid.Row="3">
             <Button x:Name="boutonEnvoyer"  Content="Send"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="BoutonEnvoyer_Click_1" />
             <Button x:Name="boutonClear" Content="Clear" Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonClear_Click"/>
             <Button x:Name="boutonTest"  Content="Test"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonTest_Click"/>
         </StackPanel>
-        
-        
+
+        <Grid Grid.ColumnSpan="2" Margin="0,6,0,4" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <CheckBox x:Name="distCheckBox" Content="Distance frontale"  Grid.Column ="1" Checked="CheckBox_Checked" VerticalAlignment="Center"/>
+            <CheckBox x:Name="ledCheckBox" Content="LED"  Grid.Column ="2" VerticalAlignment="Center" Checked="CheckBox_Checked"/>
+            <CheckBox x:Name="speedCheckBox" Content="Vitesse" Grid.Column ="3"  VerticalAlignment="Center" Checked="CheckBox_Checked"/>
+            <CheckBox x:Name="textCheckBox" Content="Text" VerticalAlignment="Center" Checked="CheckBox_Checked"/>
+
+
+        </Grid>
 
 
     </Grid>
+
+
+
 </Window>
