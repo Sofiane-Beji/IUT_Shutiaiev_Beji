@@ -16,6 +16,7 @@
       <itemPath>UART.h</itemPath>
       <itemPath>CB_TX2.h</itemPath>
       <itemPath>CB_RX2.h</itemPath>
+      <itemPath>UART_Protocol.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -41,6 +42,7 @@
       <itemPath>UART.c</itemPath>
       <itemPath>CB_TX2.c</itemPath>
       <itemPath>CB_RX2.c</itemPath>
+      <itemPath>UART_Protocol.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
@@ -53,7 +55,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>ICD4Tool</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>2.00</languageToolchainVersion>
+        <languageToolchainVersion>2.10</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>

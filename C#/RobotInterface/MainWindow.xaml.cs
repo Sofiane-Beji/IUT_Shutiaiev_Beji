@@ -152,10 +152,12 @@ namespace RobotInterface
             byte[] bytesToSend = Encoding.ASCII.GetBytes(TextBoxEmission.Text);
             
 
+
             if (textFormat && LEDFormat && speedtFormat && distFormat)
             { }
             else if (textFormat)
             {
+                
                 UartEncodeAndSendMessage(0x0080, bytesToSend.Length, bytesToSend);
             }
             else if (LEDFormat)

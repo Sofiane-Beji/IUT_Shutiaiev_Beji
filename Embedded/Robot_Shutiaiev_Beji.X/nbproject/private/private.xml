@@ -5,17 +5,20 @@
         <group>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/main.h</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/avoidingObstacles.h</file>
-            <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/CB_TX2.h</file>
+            <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/CB_TX2.H</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/Toolbox.h</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/IO.c</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/UART.h</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/Robot.h</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/main.c</file>
+            <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/UART_Protocol.c</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/PWM.h</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/UART.c</file>
+            <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/PWM.c</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/CB_RX2.h</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/CB_TX2.c</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/ADC.h</file>
+            <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/UART_Protocol.h</file>
             <file>file:/C:/Github/IUT_Shutiaiev_Beji/Embedded/Robot_Shutiaiev_Beji.X/CB_RX2.c</file>
         </group>
     </open-files>

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "CB_RX2.h"
-
+#include "UART_Protocol.h"
 #define CBRX2_BUFFER_SIZE 128
 
 int cbRx2Head;

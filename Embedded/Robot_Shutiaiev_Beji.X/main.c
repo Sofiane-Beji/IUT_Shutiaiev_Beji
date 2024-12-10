@@ -11,7 +11,7 @@
 #include "UART.h"
 #include "CB_TX2.h"
 #include "CB_RX2.h"
-
+#include "UART_Protocol.h"
 int main(void) {
 
     //Initialisation oscillateur
@@ -39,25 +39,27 @@ int main(void) {
 
     
 
-
+    
     // Boucle Principale
     robotState.avoidingObstaclesBool = 1;
     while (1) {
-
+        //UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
+        
         //LED_BLANCHE_1 = !LED_BLANCHE_1;
         for (int i = 0; i < CB_RX2_GetDataSize(); i++) {
             unsigned char c = CB_RX2_Get();
-            SendMessage(&c, 1);
+            UartDecodeMessage(c);
+            SendMessage(&c,1);
             
         }
         
         __delay32(1000);
         
-        if(robotState.distanceTelemetreExtremGauche<20.0){
-            LED_BLANCHE_1 = 1;
-        }else{
-            LED_BLANCHE_1 = 0;
-        }
+//        if(robotState.distanceTelemetreExtremGauche<20.0){
+//            LED_BLANCHE_1 = 1;
+//        }else{
+//            LED_BLANCHE_1 = 0;
+//        }
         if(robotState.distanceTelemetreGauche<20.0){
             LED_BLEUE_1 = 1;
         }else{
