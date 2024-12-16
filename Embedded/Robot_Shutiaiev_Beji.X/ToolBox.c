@@ -1,4 +1,5 @@
 #include "Toolbox.h"
+#include <math.h>
 
 float Abs(float value) {
     if (value >= 0)
@@ -39,5 +40,5 @@ float DegreeToRadian(float value) {
 }
 
 float DistanceIR (int ADCValeur){
-    return 3079*pow(ADCValeur, -1.145);
+    return 3079*powf(ADCValeur, -1.145);
 }

@@ -12,6 +12,8 @@
 #include "CB_TX2.h"
 #include "CB_RX2.h"
 #include "UART_Protocol.h"
+#include <libpic30.h>
+
 int main(void) {
 
     //Initialisation oscillateur
@@ -53,7 +55,7 @@ int main(void) {
             
         }
         
-        __delay32(1000);
+//        __delay32(1000);
         
 //        if(robotState.distanceTelemetreExtremGauche<20.0){
 //            LED_BLANCHE_1 = 1;

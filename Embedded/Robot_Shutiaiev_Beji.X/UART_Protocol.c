@@ -11,8 +11,11 @@
 #include "UART_Protocol.h"
 #include "IO.h"
 #include "CB_TX2.H"
+
+unsigned char chk;
+
 unsigned char UartCalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
-    unsigned char checksum;
+    unsigned char checksum = 0;
     checksum ^= 0xFE;
     checksum ^= (msgFunction >> 8);
     checksum ^= (msgFunction >> 0);
@@ -58,24 +61,108 @@ enum StateReception {
 } rcvState;
 
 
-char CalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
-    unsigned char checksum = 0;
-    checksum ^= 0xFE;
+int CalculateChecksum(int msgFunction, int msgPayloadLength, unsigned char* msgPayload) {
+    int checksum = 0xFE;
+    
     checksum ^= (msgFunction >> 8);
-    checksum ^= (msgFunction >> 0);
+    checksum ^= (msgFunction);
     checksum ^= (msgPayloadLength >> 8);
-    checksum ^= (msgPayloadLength >> 0);
+    checksum ^= (msgPayloadLength);
 
-
+    //checksum ^= (int)msgPayload[0];
+//    int i=0;
     for (int i = 0; i < msgPayloadLength; i++) {
-        checksum ^= msgPayload[i];
+        int test = (int)msgPayload[i];  
+        checksum ^= (int)msgPayload[i];       
     }
     return checksum;
 
 }
+void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload)
+{
+//Fonction appelee apres le decodage pour executer l?action
+//correspondant au message recu
+    //UartEncodeAndSendMessage(function,payloadLength,payload);
+    if(function == 0x0020)
+    {
+        int test = payload[1];
+//        switch(payload[1])
+//        {
+//            unsigned char ledState = payload[2];
+//            case 0x30:
+//                if(ledState == 0x31)
+//                    LED_BLANCHE_2 = 1;
+//                else if(ledState == 0x30)
+//                    LED_BLANCHE_2 = 0;
+//            case 0x31:
+//                if(ledState == 0x31)
+//                    LED_BLEUE_2 = 1;
+//                else if(ledState == 0x30)
+//                    LED_BLEUE_2 = 0;
+//            case 0x32:
+//                if(ledState == 0x31)
+//                    LED_ORANGE_2 = 1;
+//                else if(ledState == 0x30)
+//                    LED_ORANGE_2 = 0;
+//            case 0x33:
+//                if(ledState == 0x31)
+//                    LED_ROUGE_2 = 1;
+//                else if(ledState == 0x30)
+//                    LED_ROUGE_2 = 0;
+//            case 0x34:
+//                if(ledState == 0x31)
+//                    LED_VERTE_2 = 1;
+//                else if(ledState == 0x30)
+//                    LED_VERTE_2 = 0;
+//                
+//        }
+        if((int)payload[1] == 0x31){
+            if(payload[2] == 0x31){
+                LED_BLEUE_2 = 1;
+            }else if(payload[2] == 0x30){
+                LED_BLEUE_2 = 0;
+            }
+        }else if((int)payload[1] == 0x32){
+            if(payload[2] == 0x31){
+                LED_ORANGE_2 = 1;
+            }else if(payload[2] == 0x30){
+                LED_ORANGE_2 = 0;
+            }
+        }else if((int)payload[1] == 0x33){
+            if(payload[2] == 0x31){
+                LED_ROUGE_2 = 1;
+            }else if(payload[2] == 0x30){
+                LED_ROUGE_2 = 0;
+            }
+        }else if((int)payload[1] == 0x34){//sex    
+            if(payload[2] == 0x31){
+                LED_VERTE_2 = 1;
+            }else if(payload[2] == 0x30){
+                LED_VERTE_2 = 0;
+            }
+        }else if((int)payload[1] == 0x30){
+            if(payload[2] == 0x31){
+                LED_BLANCHE_2 = 1;
+            }else if(payload[2] == 0x30){
+                LED_BLANCHE_2 = 0;
+            }
+        }
+    }
+    if(function == 0x0040)
+    {
+        if(payload[1] == 0x00)
+        {
+            int speed = atoi(payload & 0x);
+            
+        }
+        else if(payload[1] == 0x01){}
+    }
 
+
+}
 
 void UartDecodeMessage(unsigned char c) {
+    
     switch (rcvState) {
         case Waiting:
             rcvState = Waiting;
@@ -88,6 +175,7 @@ void UartDecodeMessage(unsigned char c) {
             break;
         case FunctionLSB:
             msgDecodedFunction |= c;
+            msgDecodedFunction = msgDecodedFunction;
             rcvState = PayloadLengthMSB;
             break;
         case PayloadLengthMSB:
@@ -96,6 +184,7 @@ void UartDecodeMessage(unsigned char c) {
             break;
         case PayloadLengthLSB:
             msgDecodedPayloadLength |= c;
+            msgDecodedPayloadLength = msgDecodedPayloadLength;
             if (msgDecodedPayloadLength > 0) {
                 
                 rcvState = Payload;
@@ -112,12 +201,16 @@ void UartDecodeMessage(unsigned char c) {
                 
             break;
         case CheckSum:
-            char CHK = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
-            SendMessage(&CHK,1);
-              if (CHK == c) {
+            
+            chk = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+            if (chk == c) {
                 
                 rcvState = Waiting;
+                
                 UartProcessDecodedMessage(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                msgDecodedFunction = 0;
+                msgDecodedPayloadLength = 0;
+                
           
             }
 
@@ -129,19 +222,3 @@ void UartDecodeMessage(unsigned char c) {
 }
 
 
-void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* payload)
-{
-//Fonction appelee apres le decodage pour executer l?action
-//correspondant au message recu
-    //UartEncodeAndSendMessage(function,payloadLength,payload);
-    if(function == 0x0020)
-    {
-        LED_BLANCHE_1 = 1;
-    }
-    if(function == 0x0080)
-    {
-        LED_BLANCHE_1 = 0;
-    }
-
-
-}

@@ -41,7 +41,7 @@ namespace RobotInterface
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ExtendedSerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort("COM6", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -110,7 +110,7 @@ namespace RobotInterface
             checksum ^= (byte)(msgPayloadLength >> 0);
 
 
-            for (int i = 0; i < msgPayload.Length ; i++) 
+            for (int i = 0; i < msgPayload.Length - 1; i++) 
             {
                 checksum ^= msgPayload[i];
             }
@@ -166,6 +166,8 @@ namespace RobotInterface
             }
             else if (speedtFormat)
             {
+                String textToSend = TextBoxEmission.Text;
+                String motor = textToSend
                 UartEncodeAndSendMessage(0x0040, bytesToSend.Length, bytesToSend);
             }
             else if (distFormat)

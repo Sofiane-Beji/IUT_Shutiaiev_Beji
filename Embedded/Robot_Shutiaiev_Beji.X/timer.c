@@ -118,7 +118,11 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
         PWMSpeedConsigne(20, MOTEUR_GAUCHE);
         robotState.avoidingObstaclesBool = 0;
     }
-    else{robotState.delay == 0;robotState.avoidingObstaclesBool = 1;}
+    else
+    {
+        //robotState.delay == 0;
+        robotState.avoidingObstaclesBool = 1;
+    }
     
     IFS0bits.T3IF = 0; // Clear Timer3 Interrupt Flag
     if (TIME1 == 1) {
