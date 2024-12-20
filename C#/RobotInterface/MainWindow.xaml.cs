@@ -167,7 +167,7 @@ namespace RobotInterface
             else if (speedtFormat)
             {
                 String textToSend = TextBoxEmission.Text;
-                String motor = textToSend
+                String motor = textToSend;
                 UartEncodeAndSendMessage(0x0040, bytesToSend.Length, bytesToSend);
             }
             else if (distFormat)

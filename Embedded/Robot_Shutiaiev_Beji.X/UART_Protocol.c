@@ -152,7 +152,7 @@ void UartProcessDecodedMessage(int function, int payloadLength, unsigned char* p
     {
         if(payload[1] == 0x00)
         {
-            int speed = atoi(payload & 0x);
+            //int speed = atoi(payload & 0x);
             
         }
         else if(payload[1] == 0x01){}

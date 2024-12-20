@@ -67,7 +67,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
         LED_BLANCHE_2 = 0;
         toggle = 0;
     }
-    avoidingObstacles();
+    
 
 }
 
@@ -106,6 +106,7 @@ void InitTimer23(void) {
 }*/
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
+    avoidingObstacles();
     static _Bool a = 0;
     
     if(robotState.delay == 1)

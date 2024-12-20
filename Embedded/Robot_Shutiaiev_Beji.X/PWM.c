@@ -3,6 +3,8 @@
 #include "PWM.h"
 #include "Toolbox.h"
 #include "Robot.h"
+#include "UART.h"
+#include "UART_Protocol.h"
 
 #define PWMPER 24.0
 

@@ -8,8 +8,9 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="337*"/>
-            <RowDefinition Height="47*"/>
+            <RowDefinition Height="310*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="32*"/>
             <RowDefinition Height="0"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
@@ -25,24 +26,33 @@
             <TextBox x:Name="TextBoxEmission" TextWrapping="Wrap" IsReadOnly="False" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="TextBoxReception_TextChanged"/>
         </GroupBox>
 
-        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,1,0,0" Width="330" Grid.Row="3">
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="235,1,0,0" Width="330" Grid.Row="3" Grid.RowSpan="2">
             <Button x:Name="boutonEnvoyer"  Content="Send"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="BoutonEnvoyer_Click_1" />
             <Button x:Name="boutonClear" Content="Clear" Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonClear_Click"/>
             <Button x:Name="boutonTest"  Content="Test"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonTest_Click"/>
         </StackPanel>
 
-        <Grid Grid.ColumnSpan="2" Margin="0,6,0,4" Grid.Row="1">
+        <Grid Grid.ColumnSpan="2" Margin="0,6,0,4" Grid.Row="1" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="21*"/>
+                <RowDefinition Height="11*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="97*" />
+                <ColumnDefinition Width="103*"/>
+                <ColumnDefinition Width="200*" />
+                <ColumnDefinition Width="200*" />
+                <ColumnDefinition Width="200*" />
             </Grid.ColumnDefinitions>
 
-            <CheckBox x:Name="distCheckBox" Content="Distance frontale"  Grid.Column ="1" Checked="CheckBox_Checked" VerticalAlignment="Center"/>
-            <CheckBox x:Name="ledCheckBox" Content="LED"  Grid.Column ="2" VerticalAlignment="Center" Checked="CheckBox_Checked"/>
-            <CheckBox x:Name="speedCheckBox" Content="Vitesse" Grid.Column ="3"  VerticalAlignment="Center" Checked="CheckBox_Checked"/>
-            <CheckBox x:Name="textCheckBox" Content="Text" VerticalAlignment="Center" Checked="CheckBox_Checked"/>
+            <CheckBox x:Name="distCheckBox" Content="Distance frontale"  Grid.Column ="2" Checked="CheckBox_Checked" VerticalAlignment="Top"/>
+            <CheckBox x:Name="ledCheckBox" Content="LED"  Grid.Column ="4" VerticalAlignment="Top" Checked="CheckBox_Checked"/>
+            <CheckBox x:Name="speedCheckBox" Content="Vitesse" Grid.Column ="3"  VerticalAlignment="Top" Checked="CheckBox_Checked"/>
+            <CheckBox x:Name="textCheckBox" Content="Text" VerticalAlignment="Top" Checked="CheckBox_Checked" Grid.ColumnSpan="2"/>
+            <Label Grid.Column="3" Content="Vitesse Droite :" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="0,15,0,0"/>
+            <Label Grid.Column="3" Content="Vitesse Gauche :" HorizontalAlignment="Left" Margin="0,38,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+            <Label Grid.Column="3" Content="0 %" HorizontalAlignment="Left" Margin="94,15,0,0" VerticalAlignment="Top"/>
+            <Label Grid.Column="3" Content="0 %" HorizontalAlignment="Left" Margin="94,38,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
 
 
         </Grid>

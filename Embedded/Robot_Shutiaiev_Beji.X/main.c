@@ -55,7 +55,7 @@ int main(void) {
             
         }
         
-//        __delay32(1000);
+        //__delay32(10000000);
         
 //        if(robotState.distanceTelemetreExtremGauche<20.0){
 //            LED_BLANCHE_1 = 1;
