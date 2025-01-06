@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 
 public class reception
-    {
+{
 
 
     public enum StateReception
@@ -32,7 +32,21 @@ public class reception
     byte[] msgDecodedPayload;
     int msgDecodedPayloadIndex = 0;
 
-    public void CallDecodeMessage(byte c) { DecodeMessage(c); }
+    public int[] sensor = new int[5];
+    
+    public int[] getSensorValues() { return sensor; }
+
+    public void CallDecodeMessage(byte c) { 
+        DecodeMessage(c); }
+
+    private void sensors(byte[] payload)
+    {
+        for (int i = 0; i < payload.Length; i++)
+        {
+            
+            sensor[i] = (int)payload[i];
+        }
+    }
 
     private void DecodeMessage(byte c)
     {
@@ -44,21 +58,24 @@ public class reception
                     rcvState = StateReception.FunctionMSB;
                 break;
             case StateReception.FunctionMSB:
-                msgDecodedFunction |= (c << 8);
+                
+                msgDecodedFunction = (c << 8);
                 rcvState = StateReception.FunctionLSB;
                 break;
             case StateReception.FunctionLSB:
+                msgDecodedPayloadLength = 0;
                 msgDecodedFunction |= c;
                 rcvState = StateReception.PayloadLengthMSB;
                 break;
             case StateReception.PayloadLengthMSB:
-                msgDecodedPayloadLength |= (c << 8);
+                msgDecodedPayloadLength = (c << 8);
                 rcvState = StateReception.PayloadLengthLSB;
                 break;
             case StateReception.PayloadLengthLSB:
                 msgDecodedPayloadLength |= c;
                 if (msgDecodedPayloadLength > 0)
                 {
+                   
                     msgDecodedPayload = new byte[msgDecodedPayloadLength];
                     rcvState = StateReception.Payload;
                 }
@@ -70,15 +87,24 @@ public class reception
             case StateReception.Payload:
                 msgDecodedPayload[msgDecodedPayloadIndex++] = c;
                 if (msgDecodedPayloadIndex >= msgDecodedPayloadLength)
+                {
                     rcvState = StateReception.CheckSum;
-                msgDecodedPayloadIndex = 0;
+                    msgDecodedPayloadIndex = 0;
+                }
+                
+                
                 break;
             case StateReception.CheckSum:
                 
-                if (CalculateChecksum(msgDecodedFunction, msgDecodedPayloadIndex, msgDecodedPayload) == c)
+                if (CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == c)
                 {
                     
+                    if (msgDecodedFunction == 0x0030) 
+                    {
+                        sensors(msgDecodedPayload);
+                    }
                     rcvState = StateReception.Waiting;
+                    
                 }
                 
                 break;

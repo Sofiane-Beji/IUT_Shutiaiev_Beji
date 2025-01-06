@@ -63,6 +63,13 @@ namespace RobotInterface
                 reception.CallDecodeMessage(receivedByte);
                 //TextBoxReception.Text += robot.byteListReceived.Dequeue()
             }
+
+            if (reception.sensor[0] != null) {
+                DG.Text = reception.sensor[0].ToString();
+                DM.Text = reception.sensor[2].ToString();
+                DD.Text = reception.sensor[4].ToString();
+            }
+
             //TextBoxReception.Text += Encoding.UTF8.GetString(temp);
 
 
@@ -195,6 +202,10 @@ namespace RobotInterface
         private void boutonClear_Click(object sender, RoutedEventArgs e)
         {
             TextBoxReception.Text = "";
+            
+            
+            
+            
         }
 
         private void boutonTest_Click(object sender, RoutedEventArgs e)
@@ -206,7 +217,7 @@ namespace RobotInterface
             UartEncodeAndSendMessage(0x0080, temp.Length, temp);
 
         }
-      
+        
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -218,6 +229,11 @@ namespace RobotInterface
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
 
         }
