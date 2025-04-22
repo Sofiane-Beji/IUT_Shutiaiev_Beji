@@ -20,6 +20,18 @@ typedef struct robotStateBITS {
             _Bool delay;
             _Bool turn;
             int delayTime;
+            
+            //QEI Asservisement de moteur
+            double vitesseDroitFromOdometry;
+            double vitesseGaucheFromOdometry;
+            double vitesseLineaireFromOdometry;
+            double vitesseAngulaireFromOdometry;
+            double xPosFromOdometry_1;
+            double xPosFromOdometry;
+            double yPosFromOdometry_1;
+            double yPosFromOdometry;
+            double angleRadianFromOdometry_1;
+            double angleRadianFromOdometry;
         };
     };
 } ROBOT_STATE_BITS;

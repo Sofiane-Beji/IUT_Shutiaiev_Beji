@@ -28,6 +28,13 @@ void InitIO()
     
     
     
+    //******************** QEI *****************
+    _QEA2R = 126; //assign QEI A to pin RP97
+    _QEB2R = 124; //assign QEI B to pin RP96
+    _QEA1R = 97; //assign QEI A to pin RP70
+    _QEB1R = 113; //assign QEI B to pin RP69
+    
+    
     //****** Moteurs ************************
 
     // Configuration des entrées

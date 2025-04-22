@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 #define FCY 60000000
-
+#define FREQ_ECH_QEI 250
 
 #ifdef	__cplusplus
 }
