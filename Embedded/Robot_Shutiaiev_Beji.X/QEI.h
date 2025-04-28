@@ -16,7 +16,7 @@ void InitQEI2();
 void InitQEI1();
 
 void QEIUpdateData();
-
+void SendPositionData();
 
 #ifdef	__cplusplus
 }

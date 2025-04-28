@@ -6,11 +6,12 @@
 #include "ADC.h"
 #include "avoidingObstacles.h"
 #include "main.h"
+#include "QEI.h"
 //Initialisation d?un timer 16 bits
 
 unsigned char toggle = 0;
 _Bool STOP = 1;
-
+int subEchCounter = 0;
 
 
 
@@ -40,7 +41,7 @@ void InitTimer1(void) {
     ////        //10 = 1:64 prescale value
     ////        //01 = 1:8 prescale value
     ////        //00 = 1:1 prescale value
-    SetFreqTimer1(5000.0);
+    SetFreqTimer1(250.0);
     T1CONbits.TCS = 0; //clock source = internal clock
 
     IFS0bits.T1IF = 0; // Clear Timer Interrupt Flag
@@ -56,7 +57,15 @@ void InitTimer1(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
+    QEIUpdateData();
     PWMUpdateSpeed();
+    
+    if(subEchCounter >= 25)
+    {
+        SendPositionData();
+        subEchCounter = 0;
+    }
+    subEchCounter++;
     //LED_BLANCHE_1 = 1;
     //LED_ORANGE_1 = !LED_ORANGE_1;
     ADC1StartConversionSequence();
@@ -106,7 +115,7 @@ void InitTimer23(void) {
 }*/
 
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
-    avoidingObstacles();
+//    avoidingObstacles();
     static _Bool a = 0;
     
     if(robotState.delay == 1)

@@ -12,8 +12,10 @@ using System.Threading.Tasks;
 
 public class reception
 {
-
-
+    Robot robot;
+    public float timestamp = 0.0f;
+    public float xPosFromOdometry = 0.0f;
+    public float yPosFromOdometry = 0.0f;
     public enum StateReception
     {
         Waiting,
@@ -47,7 +49,13 @@ public class reception
             sensor[i] = (int)payload[i];
         }
     }
-
+    private void PositionDataPayload(byte[] c)
+    {
+       
+        timestamp = BitConverter.ToSingle(c, 0);
+        xPosFromOdometry = BitConverter.ToSingle(c, 4);
+        yPosFromOdometry = BitConverter.ToSingle(c, 16);
+    }
     private void DecodeMessage(byte c)
     {
         switch (rcvState)
@@ -98,9 +106,14 @@ public class reception
                 
                 if (CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload) == c)
                 {
+                    if (msgDecodedFunction == 0x0061) 
+                        {
+                            PositionDataPayload(msgDecodedPayload);
+                        }
                     
                     if (msgDecodedFunction == 0x0030) 
                     {
+                        
                         sensors(msgDecodedPayload);
                     }
                     rcvState = StateReception.Waiting;

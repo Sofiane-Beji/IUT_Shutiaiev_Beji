@@ -41,7 +41,7 @@ namespace RobotInterface
         public MainWindow()
         {
             InitializeComponent();
-            serialPort1 = new ExtendedSerialPort("COM6", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort("COM11", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -50,16 +50,24 @@ namespace RobotInterface
             timerAffichage.Start();
 
 
-            
+       
         }
    
         private void TimerAffichage_Tick1(object? sender, EventArgs e)
         {
-            byte[] temp = new byte[129];
+            
+            byte[] temp = new byte[64];
+            
             for (int i = 0; i < robot.byteListReceived.Count; i++) {
+                
                 //temp[i] = robot.byteListReceived.Dequeue();
                 byte receivedByte = robot.byteListReceived.Dequeue();
-                textReceivedAdd(receivedByte.ToString("X2"));
+                
+                textReceivedAdd(reception.timestamp.ToString());
+                if(receivedByte == 0xFE)
+                {
+                    TextBoxReception.Text = "FE";
+                }
                 reception.CallDecodeMessage(receivedByte);
                 //TextBoxReception.Text += robot.byteListReceived.Dequeue()
             }
