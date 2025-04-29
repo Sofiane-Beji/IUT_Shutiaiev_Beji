@@ -14,30 +14,19 @@ using System.IO.Ports;
 using System.Diagnostics.Tracing;
 using System.Runtime.Serialization;
 using System.Windows.Threading;
+
+
+
 namespace RobotInterface
 {
-
-
-
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
-
-    
 
     public partial class MainWindow : Window
     {
         ExtendedSerialPort serialPort1;
         DispatcherTimer timerAffichage;
-        Robot robot = new Robot();
-        reception reception = new reception();
-
-        public void textReceivedAdd(string textReceived)
-        {
-            TextBoxReception.Text += textReceived;
-        }
-
+        
+        Robot Robot = new Robot();
+        String receptionWindowDspMode = "txt";
         public MainWindow()
         {
             InitializeComponent();
@@ -48,39 +37,67 @@ namespace RobotInterface
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 1);
             timerAffichage.Tick += TimerAffichage_Tick1;
             timerAffichage.Start();
-
-
-       
         }
-   
+
+        public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
+        {
+            for (int i = 0; i < e.Data.Length; i++)
+            {
+                Robot.byteListReceived.Enqueue(e.Data[i]);
+            }
+        }
+
         private void TimerAffichage_Tick1(object? sender, EventArgs e)
         {
-            
             byte[] temp = new byte[64];
             
-            for (int i = 0; i < robot.byteListReceived.Count; i++) {
+            for (int i = 0; i < Robot.byteListReceived.Count; i++) {
                 
-                //temp[i] = robot.byteListReceived.Dequeue();
-                byte receivedByte = robot.byteListReceived.Dequeue();
-                
-                textReceivedAdd(reception.timestamp.ToString());
-                if(receivedByte == 0xFE)
-                {
-                    TextBoxReception.Text = "FE";
-                }
-                reception.CallDecodeMessage(receivedByte);
-                //TextBoxReception.Text += robot.byteListReceived.Dequeue()
+                byte receivedByte = Robot.byteListReceived.Dequeue();
+                receptionWindowDisplay(receivedByte.ToString("X2"), "txt"); //affichage de tram
+                Robot.CallDecodeMessage(receivedByte ); //traitement de tram
             }
 
-            if (reception.sensor[0] != null) {
-                DG.Text = reception.sensor[0].ToString();
-                DM.Text = reception.sensor[2].ToString();
-                DD.Text = reception.sensor[4].ToString();
+        }
+        public void receptionWindowDisplay(string textReceived, string dataToDspType)
+        {
+            
+            switch (receptionWindowDspMode)
+            {
+                
+                case "txt":
+                    if (dataToDspType != "txt") { break; }
+                        if (textReceived == "FE")
+                        {
+                            TextBoxReception.Text = ""; // On vide à chaque nouvelle tramme -> TODO faire un buffer circulaire 
+                            
+                        }
+                        TextBoxReception.Text += textReceived;
+                    break;
+                case "dist":
+                    if (Robot.sensor[0] != 0) 
+                    {
+                        TextBoxReception.Text = "Distance G: " + Robot.sensor[0].ToString() + "\n";
+                        TextBoxReception.Text += "Distance C: " + Robot.sensor[2].ToString() + "\n";
+                        TextBoxReception.Text += "Distance D: " + Robot.sensor[4].ToString();
+                    }
+                    else 
+                    {
+                        TextBoxReception.Text = "No data from robot";
+                    }
+                    break;
+                case "pos":
+                    TextBoxReception.Text = "Timestamp: " + Robot.timestamp + "\n";
+                    TextBoxReception.Text += "xPosFromOdometry: " + Robot.xPosFromOdometry + "\n";
+                    TextBoxReception.Text += "yPosFromOdometry: " + Robot.yPosFromOdometry + "\n";
+                    TextBoxReception.Text += "angleRadianFromOdometry: " + Robot.angleRadianFromOdometry + "\n";
+                    TextBoxReception.Text += "vitesseLineaireFromOdometry: " + Robot.vitesseLineaireFromOdometry + "\n"; 
+                    TextBoxReception.Text += "vitesseAngulaireFromOdometry: " + Robot.vitesseAngulaireFromOdometry;
+
+                    break;
+                default:
+                    break;
             }
-
-            //TextBoxReception.Text += Encoding.UTF8.GetString(temp);
-
-
         }
 
         private void TextBoxEmission_TextChanged()
@@ -90,8 +107,6 @@ namespace RobotInterface
 
         private void TextBoxEmission_TextChanged(object sender, TextChangedEventArgs e)
         {
-
-
         }
 
         void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload) {
@@ -110,8 +125,6 @@ namespace RobotInterface
             byte checkSum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
             tram[5 + msgPayloadLength] = checkSum;
             serialPort1.Write(tram, 0, 6 + msgPayloadLength);
-            
-            
 
         }
         //bool a = false;
@@ -135,17 +148,6 @@ namespace RobotInterface
 
         private void BoutonEnvoyer_Click_1(object sender, RoutedEventArgs e)
         {
-            /*if (a == false)
-            {
-                boutonEnvoyer.Background = Brushes.RoyalBlue;
-                a = true;
-            }
-            else
-            {
-                boutonEnvoyer.Background = Brushes.Beige;
-                a = false;
-            }*/
-
             SendMessage();
         }
 
@@ -159,7 +161,7 @@ namespace RobotInterface
 
         private void SendMessage()
         {
-            bool textFormat = (bool)textCheckBox.IsChecked;
+            /*bool textFormat = (bool)textCheckBox.IsChecked;
             bool LEDFormat = (bool)ledCheckBox.IsChecked;
             bool speedtFormat = (bool)speedCheckBox.IsChecked;
             bool distFormat = (bool)distCheckBox.IsChecked;
@@ -191,39 +193,23 @@ namespace RobotInterface
             }
             else { TextBoxReception.Text += "At least one format has to be choosen\n"; }
             TextBoxEmission.Text = "";
-
+            */
 
 
         }
 
-        public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
-        {
-            for (int i = 0; i < e.Data.Length; i++)
-            {
-                robot.byteListReceived.Enqueue(e.Data[i]);
-            }
-
-
-            //robot.receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
-        }
+      
 
         private void boutonClear_Click(object sender, RoutedEventArgs e)
         {
-            TextBoxReception.Text = "";
-            
-            
-            
-            
+            TextBoxReception.Text = ""; 
         }
 
         private void boutonTest_Click(object sender, RoutedEventArgs e)
         {
-            //byte[] array = Encoding.ASCII.GetBytes("Bonjour");
-            //UartEncodeAndSendMessage(0x0080, array.Length, array);
             string text = "Bonjour";
             byte[] temp = Encoding.ASCII.GetBytes(text);
             UartEncodeAndSendMessage(0x0080, temp.Length, temp);
-
         }
         
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -236,9 +222,23 @@ namespace RobotInterface
 
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        private void DisplayModeCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-
+            if (sender is CheckBox checkBox)
+            {
+                switch (checkBox.Name)
+                {
+                    case "textCheckBox":
+                        receptionWindowDspMode = "txt";
+                        break;
+                    case "distCheckBox":
+                        receptionWindowDspMode = "dist";
+                        break;
+                    case "posCheckBox":
+                        receptionWindowDspMode = "pos";
+                        break;
+                }
+            }
         }
 
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)

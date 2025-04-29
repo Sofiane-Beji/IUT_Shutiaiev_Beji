@@ -7,13 +7,13 @@
 #include "Utilities.h"
 #include <xc.h>
 
-float timestamp;
-float QeiDroitPosition_T_1;
-float QeiDroitPosition;
-float QeiGauchePosition_T_1;
-float QeiGauchePosition;
 
-float weelRadius = 0.022;
+float QeiDroitPosition_T_1 = 0.0f;
+float QeiDroitPosition = 0.0f;
+double QeiGauchePosition_T_1;
+double QeiGauchePosition;
+
+double weelRadius = 0.022;
 
 void InitQEI1() {
     QEI1IOCbits.SWPAB = 1; //QEAx and QEBx are swapped QEI1IOCbits 
@@ -63,14 +63,14 @@ void QEIUpdateData() {
         robotState.angleRadianFromOdometry -= 2 * PI;
     if (robotState.angleRadianFromOdometry < -PI)
         robotState.angleRadianFromOdometry += 2 * PI;
-    timestamp += 1.0/FREQ_ECH_QEI;
+    
 }
 
 #define POSITION_DATA 0x0061
 
 void SendPositionData() {
     unsigned char positionPayload[24];
-    getBytesFromInt32(positionPayload, 0, (float) timestamp);
+    getBytesFromFloat(positionPayload, 0, (float) robotState.timestamp);
     getBytesFromFloat(positionPayload, 4, (float) (robotState.xPosFromOdometry));
     getBytesFromFloat(positionPayload, 8, (float) (robotState.yPosFromOdometry));
     getBytesFromFloat(positionPayload, 12, (float) (robotState.angleRadianFromOdometry));

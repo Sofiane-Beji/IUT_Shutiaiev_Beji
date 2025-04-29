@@ -32,6 +32,8 @@ typedef struct robotStateBITS {
             double yPosFromOdometry;
             double angleRadianFromOdometry_1;
             double angleRadianFromOdometry;
+            
+            float timestamp;
         };
     };
 } ROBOT_STATE_BITS;

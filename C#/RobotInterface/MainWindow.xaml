@@ -10,9 +10,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="317*"/>
             <RowDefinition Height="27*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="0"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="65.017"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -20,13 +19,13 @@
         </Grid.ColumnDefinitions>
 
         <GroupBox Header="Reception" Background="#FFAEDFFF"  Grid.Row="0" Grid.Column="1">
-            <TextBox x:Name="TextBoxReception" TextWrapping="Wrap" IsReadOnly="True" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="TextBoxReception_TextChanged"/>
+            <TextBlock x:Name="TextBoxReception" TextWrapping="Wrap"  Background="{x:Null}"/>
         </GroupBox>
         <GroupBox Header="Emission" BorderBrush="Black" Background="#FFDFFFB3" Grid.Column="0" Grid.Row="0" >
-            <TextBox x:Name="TextBoxEmission" TextWrapping="Wrap" IsReadOnly="False" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="TextBoxReception_TextChanged"/>
+            <TextBox x:Name="TextBoxEmission" TextWrapping="Wrap" IsReadOnly="False" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="TextBoxReception_TextChanged" UndoLimit="0"/>
         </GroupBox>
 
-        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="235,1,0,0" Width="330" Grid.Row="3" Grid.RowSpan="2">
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="235,1,0,0" Width="330" Grid.Row="3">
             <Button x:Name="boutonEnvoyer"  Content="Send"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="BoutonEnvoyer_Click_1" />
             <Button x:Name="boutonClear" Content="Clear" Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonClear_Click"/>
             <Button x:Name="boutonTest"  Content="Test"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonTest_Click"/>
@@ -34,8 +33,8 @@
 
         <Grid Grid.ColumnSpan="2" Margin="0,6,0,4" Grid.Row="1" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="21*"/>
-                <RowDefinition Height="11*"/>
+                <RowDefinition/>
+                <RowDefinition Height="0*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="97*" />
@@ -45,22 +44,10 @@
                 <ColumnDefinition Width="200*" />
             </Grid.ColumnDefinitions>
 
-            <CheckBox x:Name="distCheckBox" Content="Distance frontale"  Grid.Column ="2" Checked="CheckBox_Checked" VerticalAlignment="Top"/>
-            <CheckBox x:Name="ledCheckBox" Content="LED"  Grid.Column ="4" VerticalAlignment="Top" Checked="CheckBox_Checked"/>
-            <CheckBox x:Name="speedCheckBox" Content="Vitesse" Grid.Column ="3"  VerticalAlignment="Top" Checked="CheckBox_Checked"/>
-            <CheckBox x:Name="textCheckBox" Content="Text" VerticalAlignment="Top" Checked="CheckBox_Checked" Grid.ColumnSpan="2"/>
-            <Label Grid.Column="3" Content="Vitesse Droite :" HorizontalAlignment="Left" Margin="0,28,0,6" Grid.RowSpan="2"/>
-            <Label Grid.Column="3" Content="Vitesse Gauche :" HorizontalAlignment="Left" Margin="0,16,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
-            <Label Name="VD" Grid.Column="3" Content="0 %" HorizontalAlignment="Left" Margin="101,17,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
-            <Label Name="VG" Grid.Column="3" Content="0 %" HorizontalAlignment="Left" Margin="101,30,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
-
-
-            <Label Content="Capteur droite :&#xD;&#xA;" HorizontalAlignment="Center" VerticalAlignment="Top" Width="101" Height="26" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,33,0,0" Grid.RowSpan="2"/>
-            <Label Content="Capteur milieu :" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Width="101" Height="26" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-            <Label Content="Capteur gauche :" HorizontalAlignment="Center" Margin="0,8,0,0" VerticalAlignment="Top" Grid.RowSpan="2" Width="101" Height="26" Grid.Column="1" Grid.ColumnSpan="2"/>
-            <TextBox Name ="DG" Grid.Column="2" HorizontalAlignment="Left" Margin="104,13,0,0" TextWrapping="Wrap" Text="00cm" VerticalAlignment="Top" Width="53" TextChanged="TextBox_TextChanged_1" Height="16"/>
-            <TextBox Name ="DM" Grid.Column="2" HorizontalAlignment="Left" Margin="104,27,0,0" TextWrapping="Wrap" Text="00cm" VerticalAlignment="Top" Width="53" TextChanged="TextBox_TextChanged_1" Height="16" Grid.RowSpan="2"/>
-            <TextBox Name ="DD" Grid.Column="2" HorizontalAlignment="Left" Margin="104,4,0,0" TextWrapping="Wrap" Text="00cm" VerticalAlignment="Top" Width="53" TextChanged="TextBox_TextChanged_1" Grid.Row="1"/>
+            <CheckBox x:Name="distCheckBox" Content="Distance frontale"  Grid.Column ="2" Checked="DisplayModeCheckBox_Checked" VerticalAlignment="Top" Height="15"/>
+            <CheckBox x:Name="posCheckBox" Content="Position"  Grid.Column ="4" VerticalAlignment="Top" Checked="DisplayModeCheckBox_Checked" Height="15"/>
+            <CheckBox x:Name="speedCheckBox" Content="Vitesse" Grid.Column ="3"  VerticalAlignment="Top" Checked="DisplayModeCheckBox_Checked" Height="15"/>
+            <CheckBox x:Name="textCheckBox" Content="Text" VerticalAlignment="Top" Checked="DisplayModeCheckBox_Checked" Grid.ColumnSpan="2" Height="15"/>
 
 
         </Grid>

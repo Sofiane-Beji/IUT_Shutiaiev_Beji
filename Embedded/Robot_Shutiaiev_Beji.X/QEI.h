@@ -11,7 +11,7 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-
+    
 void InitQEI2();
 void InitQEI1();
 

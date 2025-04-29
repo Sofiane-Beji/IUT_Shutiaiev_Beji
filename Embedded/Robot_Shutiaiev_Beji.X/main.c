@@ -23,7 +23,7 @@ int main(void) {
     InitADC1();
     InitTimer1();
 
-    InitTimer23();
+   
     InitPWM();
     
     InitUART();
@@ -48,12 +48,12 @@ int main(void) {
         //UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
         
         //LED_BLANCHE_1 = !LED_BLANCHE_1;
-        for (int i = 0; i < CB_RX2_GetDataSize(); i++) {
-            unsigned char c = CB_RX2_Get();
-            UartDecodeMessage(c);
-            SendMessage(&c,1);
-            
-        }
+//        for (int i = 0; i < CB_RX2_GetDataSize(); i++) {
+//            unsigned char c = CB_RX2_Get();
+//            UartDecodeMessage(c);
+//            SendMessage(&c,1);
+//            
+//        }
         
         //__delay32(10000000);
         

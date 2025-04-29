@@ -59,7 +59,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     IFS0bits.T1IF = 0;
     QEIUpdateData();
     PWMUpdateSpeed();
-    
+    robotState.timestamp += (1.0/250.0);
     if(subEchCounter >= 25)
     {
         SendPositionData();
