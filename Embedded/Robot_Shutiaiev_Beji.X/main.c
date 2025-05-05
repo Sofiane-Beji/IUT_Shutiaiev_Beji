@@ -13,6 +13,7 @@
 #include "CB_RX2.h"
 #include "UART_Protocol.h"
 #include <libpic30.h>
+#include "QEI.h"
 
 int main(void) {
 
@@ -23,7 +24,9 @@ int main(void) {
     InitADC1();
     InitTimer1();
 
-   
+    InitQEI1();
+    InitQEI2();
+    
     InitPWM();
     
     InitUART();

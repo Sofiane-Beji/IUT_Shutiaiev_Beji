@@ -87,12 +87,13 @@ namespace RobotInterface
                     }
                     break;
                 case "pos":
-                    TextBoxReception.Text = "Timestamp: " + Robot.timestamp + "\n";
-                    TextBoxReception.Text += "xPosFromOdometry: " + Robot.xPosFromOdometry + "\n";
-                    TextBoxReception.Text += "yPosFromOdometry: " + Robot.yPosFromOdometry + "\n";
-                    TextBoxReception.Text += "angleRadianFromOdometry: " + Robot.angleRadianFromOdometry + "\n";
-                    TextBoxReception.Text += "vitesseLineaireFromOdometry: " + Robot.vitesseLineaireFromOdometry + "\n"; 
-                    TextBoxReception.Text += "vitesseAngulaireFromOdometry: " + Robot.vitesseAngulaireFromOdometry;
+                    TextBoxReception.Text = "";
+                    TextBoxReception.Text = "Timestamp: " + (Robot.timestamp).ToString() + "\n";
+                    TextBoxReception.Text += "xPosFromOdometry: " + (Robot.xPosFromOdometry).ToString() + "\n";
+                    TextBoxReception.Text += "yPosFromOdometry: " + (Robot.yPosFromOdometry).ToString() + "\n";
+                    TextBoxReception.Text += "angleRadianFromOdometry: " + (Robot.angleRadianFromOdometry).ToString() + "\n";
+                    TextBoxReception.Text += "vitesseLineaireFromOdometry: " + (Robot.vitesseLineaireFromOdometry).ToString() + "\n";
+                    TextBoxReception.Text += "vitesseAngulaireFromOdometry: " + (Robot.vitesseAngulaireFromOdometry).ToString();
 
                     break;
                 default:

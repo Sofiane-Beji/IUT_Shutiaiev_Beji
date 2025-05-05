@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
 
 
 public class Robot
@@ -14,9 +15,9 @@ public class Robot
     public float timestamp = 0.0f;
     public float xPosFromOdometry = 0.0f;
     public float yPosFromOdometry = 0.0f;
-    public float angleRadianFromOdometry;
-    public float vitesseLineaireFromOdometry;
-    public float vitesseAngulaireFromOdometry;
+    public float angleRadianFromOdometry = 0.0f;
+    public float vitesseLineaireFromOdometry = 0.0f;
+    public float vitesseAngulaireFromOdometry = 0.0f;
     public Robot()
     {
 
@@ -55,13 +56,14 @@ public class Robot
         }
     }
     private void PositionReconstructData(byte[] c)
-    {
-        timestamp = BitConverter.ToSingle(c, 0);
-        xPosFromOdometry = BitConverter.ToSingle(c, 4);
-        yPosFromOdometry = BitConverter.ToSingle(c, 8);
-        angleRadianFromOdometry = BitConverter.ToSingle(c, 12);
-        vitesseLineaireFromOdometry = BitConverter.ToSingle(c, 16);
-        vitesseAngulaireFromOdometry = BitConverter.ToSingle(c, 20);
+    {   
+            timestamp = BitConverter.ToSingle(c, 0);
+            xPosFromOdometry = BitConverter.ToSingle(c, 4);
+            yPosFromOdometry = BitConverter.ToSingle(c, 8);
+            angleRadianFromOdometry = BitConverter.ToSingle(c, 12);
+            vitesseLineaireFromOdometry = BitConverter.ToSingle(c, 16);
+            vitesseAngulaireFromOdometry = BitConverter.ToSingle(c, 20);
+            Debug.WriteLine(timestamp);
     }
     private void DecodeMessage(byte c)
     {
@@ -89,9 +91,11 @@ public class Robot
                 msgDecodedPayloadLength |= c;
                 if (msgDecodedPayloadLength > 0)
                 {
-
-                    msgDecodedPayload = new byte[msgDecodedPayloadLength];
-                    rcvState = StateReception.Payload;
+                    if(msgDecodedPayloadLength < 100) { //limit de la taille de payload
+                        msgDecodedPayload = new byte[msgDecodedPayloadLength]; 
+                        rcvState = StateReception.Payload;}
+                    else { rcvState = StateReception.Waiting; }
+                    
                 }
                 else
                 {
@@ -113,8 +117,8 @@ public class Robot
                     switch (msgDecodedFunction)
                     {
                         case 0x0061:
-   
-                            PositionReconstructData(msgDecodedPayload);
+                            if(msgDecodedPayloadLength == 24) {PositionReconstructData(msgDecodedPayload); }
+                            
                             break;
                         case 0x0030:
                             SensorsPutData(msgDecodedPayload);

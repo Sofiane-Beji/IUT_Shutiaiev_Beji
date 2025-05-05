@@ -28,11 +28,7 @@ void InitIO()
     
     
     
-    //******************** QEI *****************
-    _QEA2R = 97; //assign QEI A to pin RP97
-    _QEB2R = 96; //assign QEI B to pin RP96
-    _QEA1R = 124; //assign QEI A to pin RP70
-    _QEB1R = 126; //assign QEI B to pin RP69
+    
     
     
     //****** Moteurs ************************
@@ -48,6 +44,13 @@ void InitIO()
     //Assignation des remappable pins
     _U2RXR = 18; //Remappe la RP... sur l?éentre Rx1
     _RP98R = 0b00011; //Remappe la sortie Tx1 vers RP...
+    
+    //******************** QEI *****************
+    _QEA2R = 97; //assign QEI A to pin RP97
+    _QEB2R = 113; //assign QEI B to pin RP96
+    _QEA1R = 124; //assign QEI A to pin RP70
+    _QEB1R = 126; //assign QEI B to pin RP69
+    
     LockIO(); // On lock les registres d'entrées/sorties, ainsi que les registres des PPS
 }
 
