@@ -14,6 +14,9 @@ using System.IO.Ports;
 using System.Diagnostics.Tracing;
 using System.Runtime.Serialization;
 using System.Windows.Threading;
+using static SciChart.Drawing.Utility.PointUtil;
+using SciChart.Data.Model;
+using SciChart.Charting.Visuals;
 
 
 
@@ -22,6 +25,11 @@ namespace RobotInterface
 
     public partial class MainWindow : Window
     {
+        bool rawTramDspMode = true;
+        bool posDspMode = false;
+        bool speedDspMode = false;
+        bool distDspMode = false;
+
         ExtendedSerialPort serialPort1;
         DispatcherTimer timerAffichage;
         
@@ -29,6 +37,9 @@ namespace RobotInterface
         String receptionWindowDspMode = "txt";
         public MainWindow()
         {
+            // Set this code once in App.xaml.cs or application startup
+            SciChartSurface.SetRuntimeLicenseKey("rawGYdZucXOANEX0TnQ0wSvPHXM3trkTCdRqc9VgfXhPE3bF05t7I6j41xW49IvBviM4ep3kbiO/Gj9qQ3rNDcq89Lm8hXfqu/0rMuj5hoTrcn1knJIGGB85+GaoUQP4ZV+mMFPnL3b2erT/NXobKdwi9SmlNJHfoesS4uM7AvLOSUymT8FknehVb1Ur9rqr1jxMn37sDcBql2nBHuDDSXiX1Fl0EB7OiMKyPZf+bEdqKE+j4+oOyZIGvuXbIAnffl4b1jv5J9vW2LmlDptXKLPQ42oywJwL+GmejhqV6VMSWB/9wtPfHKrPxRAI+7ViMMoKyIwR0Fch+PoLLRvA2ACLjXza3JCp3+SGXEGnajE8g+Wyey6gqIbxz1dGhEq8QXQa3X/QPfrZb4G/B+SFgo/Q8FJGn4sxCV+n469Wr92YF+d23giEOt49UFn2IL6czW19nFUQF09pRX6buAq0ULeFFeQs0vB0uxH+aosgIr5SuR6+W+9ptFSxJf+XZiA44wbhney7");
+
             InitializeComponent();
             serialPort1 = new ExtendedSerialPort("COM11", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
@@ -37,6 +48,10 @@ namespace RobotInterface
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 1);
             timerAffichage.Tick += TimerAffichage_Tick1;
             timerAffichage.Start();
+            oscilloSpeed.AddOrUpdateLine(0, 200, "Ligne1");
+            oscilloSpeed.ChangeLineColor(0, Color.Blue);
+
+
         }
 
         public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
@@ -57,49 +72,50 @@ namespace RobotInterface
                 receptionWindowDisplay(receivedByte.ToString("X2"), "txt"); //affichage de tram
                 Robot.CallDecodeMessage(receivedByte ); //traitement de tram
             }
+            oscilloSpeed.AddPointToLine(0, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseLineaireFromOdometry).ToString()));
 
         }
         public void receptionWindowDisplay(string textReceived, string dataToDspType)
         {
-            
-            switch (receptionWindowDspMode)
+            if (textReceived == "FE")
             {
-                
-                case "txt":
-                    if (dataToDspType != "txt") { break; }
-                        if (textReceived == "FE")
-                        {
-                            TextBoxReception.Text = ""; // On vide à chaque nouvelle tramme -> TODO faire un buffer circulaire 
-                            
-                        }
-                        TextBoxReception.Text += textReceived;
-                    break;
-                case "dist":
-                    if (Robot.sensor[0] != 0) 
+                TextBoxReception.Text = ""; // On vide à chaque nouvelle tramme -> TODO faire un buffer circulaire 
+                if (distDspMode)
+                {
+                    if (Robot.sensor[0] != 0)
                     {
-                        TextBoxReception.Text = "Distance G: " + Robot.sensor[0].ToString() + "\n";
+                        TextBoxReception.Text += "------------Distance\n";
+                        TextBoxReception.Text += "Distance G: " + Robot.sensor[0].ToString() + "\n";
                         TextBoxReception.Text += "Distance C: " + Robot.sensor[2].ToString() + "\n";
-                        TextBoxReception.Text += "Distance D: " + Robot.sensor[4].ToString();
+                        TextBoxReception.Text += "Distance D: " + Robot.sensor[4].ToString() + "\n\n";
                     }
-                    else 
+                    else
                     {
-                        TextBoxReception.Text = "No data from robot";
+                        TextBoxReception.Text += "------------Distance\n";
+                        TextBoxReception.Text += "No data from robot" + "\n\n";
                     }
-                    break;
-                case "pos":
-                    TextBoxReception.Text = "";
-                    TextBoxReception.Text = "Timestamp: " + (Robot.timestamp).ToString() + "\n";
+                }
+                if (posDspMode)
+                {
+                    TextBoxReception.Text += "------------Position\n";
+                    TextBoxReception.Text += "Timestamp: " + (Robot.timestamp).ToString() + "\n";
                     TextBoxReception.Text += "xPosFromOdometry: " + (Robot.xPosFromOdometry).ToString() + "\n";
                     TextBoxReception.Text += "yPosFromOdometry: " + (Robot.yPosFromOdometry).ToString() + "\n";
                     TextBoxReception.Text += "angleRadianFromOdometry: " + (Robot.angleRadianFromOdometry).ToString() + "\n";
                     TextBoxReception.Text += "vitesseLineaireFromOdometry: " + (Robot.vitesseLineaireFromOdometry).ToString() + "\n";
-                    TextBoxReception.Text += "vitesseAngulaireFromOdometry: " + (Robot.vitesseAngulaireFromOdometry).ToString();
-
-                    break;
-                default:
-                    break;
-            }
+                    TextBoxReception.Text += "vitesseAngulaireFromOdometry: " + (Robot.vitesseAngulaireFromOdometry).ToString() + "\n\n";
+                }
+                if (rawTramDspMode)
+                {
+                    TextBoxReception.Text += "------------Raw data\n";
+                }
+                }
+            if (rawTramDspMode) {
+                
+                TextBoxReception.Text += textReceived; }
         }
+           
+            
 
         private void TextBoxEmission_TextChanged()
         {
@@ -230,13 +246,31 @@ namespace RobotInterface
                 switch (checkBox.Name)
                 {
                     case "textCheckBox":
-                        receptionWindowDspMode = "txt";
+                        rawTramDspMode = true;
                         break;
                     case "distCheckBox":
-                        receptionWindowDspMode = "dist";
+                        distDspMode = true;
                         break;
                     case "posCheckBox":
-                        receptionWindowDspMode = "pos";
+                        posDspMode = true;
+                        break;
+                }
+            }
+        }
+        private void DisplayModeCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox checkBox)
+            {
+                switch (checkBox.Name)
+                {
+                    case "textCheckBox":
+                        rawTramDspMode = false;
+                        break;
+                    case "distCheckBox":
+                        distDspMode = false;
+                        break;
+                    case "posCheckBox":
+                        posDspMode = false;
                         break;
                 }
             }
@@ -246,5 +280,7 @@ namespace RobotInterface
         {
 
         }
+
+       
     }
 }
