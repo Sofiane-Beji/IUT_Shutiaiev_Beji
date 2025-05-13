@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:oscillo="clr-namespace:WpfOscilloscopeControl;assembly=WpfOscilloscopeControl"        
+        xmlns:oscillo="clr-namespace:PolarChartControl;assembly=WpfOscilloscopeControl"        
         xmlns:local="clr-namespace:RobotInterface"
 
         mc:Ignorable="d"
@@ -28,7 +28,7 @@
         <GroupBox Header="Emission" BorderBrush="Black" Background="#FFDFFFB3" Grid.Column="0" Grid.Row="0"  >
             <TextBox x:Name="TextBoxEmission" TextWrapping="Wrap" IsReadOnly="False" Background="{x:Null}" BorderBrush="{x:Null}" TextChanged="TextBoxReception_TextChanged" UndoLimit="0"/>
         </GroupBox>
-        <oscillo:WpfOscilloscope x:Name="oscilloSpeed" Grid.Column="1"  Grid.RowSpan ="2"/>
+        <oscillo:PolarChart x:Name="oscilloSpeed" Grid.Column="1"  Grid.RowSpan ="2" />
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Left"  Width="330" Grid.Row="3" Margin="235,25,0,0" Grid.RowSpan="2">
             <Button x:Name="boutonEnvoyer"  Content="Send"  Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="BoutonEnvoyer_Click_1" />
             <Button x:Name="boutonClear" Content="Clear" Height="30" Width="100" Margin="5" Background="#FFDFFFC6" Click="boutonClear_Click"/>

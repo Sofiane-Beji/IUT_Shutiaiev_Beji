@@ -1,5 +1,9 @@
 ﻿using SciChart.Charting.Model.DataSeries;
+using SciChart.Charting.Visuals;
+using SciChart.Charting.Visuals.Axes.LabelProviders;
+using SciChart.Charting.Visuals.Axes;
 using SciChart.Charting.Visuals.RenderableSeries;
+using SciChart.Data.Model;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +25,7 @@ namespace WpfOscilloscopeControl
         ConcurrentDictionary<int, ConcurrentQueue<Point>> lineDataDictionary = new ConcurrentDictionary< int, ConcurrentQueue<Point>>();
         Dictionary<int, bool> useDisplayTimerRenderingDictionary = new Dictionary<int, bool>();
         DispatcherTimer displayTimer;
+        
         public WpfOscilloscope()
         {
             InitializeComponent();
@@ -28,6 +33,8 @@ namespace WpfOscilloscopeControl
             displayTimer.Interval = new System.TimeSpan(0,0,0,0,100);
             displayTimer.Tick += DisplayTimer_Tick;
             displayTimer.Start();
+
+            
         }
 
         private void DisplayTimer_Tick(object sender, System.EventArgs e)
@@ -73,7 +80,7 @@ namespace WpfOscilloscopeControl
             }
             else
             {
-                var xyDataSeries = new XyDataSeries<double, double>(maxNumberOfPoints) { SeriesName = lineName };
+                var xyDataSeries = new XyDataSeries<double, double>(maxNumberOfPoints) { SeriesName = lineName};
                 lineDictionary.AddOrUpdate(lineId, xyDataSeries, (key, value) => xyDataSeries);
                 lineDictionary[lineId].FifoCapacity = maxNumberOfPoints;
                 var dataPointSerie = new ConcurrentQueue<Point>();
@@ -84,6 +91,7 @@ namespace WpfOscilloscopeControl
                 lineRenderableSerie.Name = "lineRenderableSerie" + lineId.ToString();
                 lineRenderableSerie.DataSeries = lineDictionary[lineId];
                 lineRenderableSerie.DataSeries.AcceptsUnsortedData = true;
+                 
                 if (useYAxisRight)
                     lineRenderableSerie.YAxisId = "RightYAxis";
                 else

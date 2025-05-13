@@ -18,7 +18,8 @@ using static SciChart.Drawing.Utility.PointUtil;
 using SciChart.Data.Model;
 using SciChart.Charting.Visuals;
 
-
+using System.Windows.Media;
+using WpfOscilloscopeControl;
 
 namespace RobotInterface
 {
@@ -48,10 +49,17 @@ namespace RobotInterface
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 1);
             timerAffichage.Tick += TimerAffichage_Tick1;
             timerAffichage.Start();
-            oscilloSpeed.AddOrUpdateLine(0, 200, "Ligne1");
-            oscilloSpeed.ChangeLineColor(0, Color.Blue);
 
 
+            
+            oscilloSpeed.isDisplayActivated = true;
+            /*oscilloSpeed.AddOrUpdateLine(0, 200, "Speed lin");
+            oscilloSpeed.ChangeLineColor(0, Colors.Red);
+
+            oscilloSpeed.AddOrUpdateLine(1, 200, "Speed ang");
+            oscilloSpeed.ChangeLineColor(1, Colors.Orange);
+            */
+            
         }
 
         public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
@@ -72,8 +80,10 @@ namespace RobotInterface
                 receptionWindowDisplay(receivedByte.ToString("X2"), "txt"); //affichage de tram
                 Robot.CallDecodeMessage(receivedByte ); //traitement de tram
             }
-            oscilloSpeed.AddPointToLine(0, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseLineaireFromOdometry).ToString()));
-
+            //oscilloSpeed.AddPointToLine(0, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseLineaireFromOdometry).ToString()));
+            //oscilloSpeed.AddPointToLine(1, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseAngulaireFromOdometry).ToString()));
+            oscilloSpeed.appendData(Double.Parse((5.0).ToString()), Double.Parse((10.0).ToString()));
+            
         }
         public void receptionWindowDisplay(string textReceived, string dataToDspType)
         {
