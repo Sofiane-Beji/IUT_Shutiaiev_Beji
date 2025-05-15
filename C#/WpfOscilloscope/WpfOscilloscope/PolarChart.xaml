@@ -18,10 +18,12 @@
 
         <!--  Create an X Axis with Growby  -->
         <s:SciChartSurface.XAxis>
-            <s:PolarXAxis AutoRange="Once"
+            <s:PolarXAxis AutoRange="Never"
                                     DrawLabels="False"
                                     DrawMajorTicks="False"
-                                    DrawMinorTicks="False" />
+                                    DrawMinorTicks="False"
+                          VisibleRange="-180,180"
+                          />
         </s:SciChartSurface.XAxis>
 
 
@@ -31,14 +33,26 @@
             </s:SciChartSurface.YAxis>-->
 
         <s:SciChartSurface.YAxis>
-            <s:PolarYAxis AutoRange="Once"
+            <s:PolarYAxis AutoRange="Never"
+                                    VisibleRange="-0.5,0.5"
                                     DrawLabels="False"
                                     DrawMajorTicks="False"
                                     DrawMinorTicks="False"
-                                    GrowBy="0,0.2" />
+                                    GrowBy="0,0.02" 
+                                    Id="RightYAxis"/>
+          
         </s:SciChartSurface.YAxis>
 
-        
+        <s:SciChartSurface.ChartModifier>
+            <s:ModifierGroup>
+                <s:RubberBandXyZoomModifier x:Name="RubberBandXyZoomModifier" IsEnabled="True"/>
+               
+                <s:LegendModifier ShowLegend="True" LegendPlacement="Inside" Margin="0" Padding="0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <s:RolloverModifier x:Name="RolloverModifier" ShowAxisLabels="False" UseInterpolation="True" ShowTooltipOn="Always"/>
+           
+                <s:ZoomExtentsModifier/>
+            </s:ModifierGroup>
+        </s:SciChartSurface.ChartModifier>
     </s:SciChartSurface>
     <!--</GroupBox>-->
 </UserControl>

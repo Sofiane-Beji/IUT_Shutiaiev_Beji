@@ -60,6 +60,7 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     QEIUpdateData();
     PWMUpdateSpeed();
     robotState.timestamp += (1.0/250.0);
+    avoidingObstacles();
     if(subEchCounter >= 25)
     {
         SendPositionData();
@@ -117,6 +118,7 @@ void InitTimer23(void) {
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
 //    avoidingObstacles();
     static _Bool a = 0;
+    
     
     if(robotState.delay == 1)
     {

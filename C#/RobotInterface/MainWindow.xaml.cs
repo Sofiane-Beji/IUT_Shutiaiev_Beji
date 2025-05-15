@@ -51,15 +51,17 @@ namespace RobotInterface
             timerAffichage.Start();
 
 
-            
-            oscilloSpeed.isDisplayActivated = true;
-            /*oscilloSpeed.AddOrUpdateLine(0, 200, "Speed lin");
-            oscilloSpeed.ChangeLineColor(0, Colors.Red);
 
-            oscilloSpeed.AddOrUpdateLine(1, 200, "Speed ang");
-            oscilloSpeed.ChangeLineColor(1, Colors.Orange);
-            */
-            
+            oscilloDirection.isDisplayActivated = true;
+            oscilloSpeed.isDisplayActivated = true;
+            oscilloDistance.isDisplayActivated = true;
+            oscilloDirection.AddOrUpdateLine(0, 200, "Direct. & Speed");
+            oscilloSpeed.AddOrUpdateLine(0, 200, "Speed lin.");
+            oscilloDistance.AddOrUpdateLine(0, 200, "Distance");
+
+
+
+
         }
 
         public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
@@ -80,10 +82,13 @@ namespace RobotInterface
                 receptionWindowDisplay(receivedByte.ToString("X2"), "txt"); //affichage de tram
                 Robot.CallDecodeMessage(receivedByte ); //traitement de tram
             }
-            //oscilloSpeed.AddPointToLine(0, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseLineaireFromOdometry).ToString()));
-            //oscilloSpeed.AddPointToLine(1, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseAngulaireFromOdometry).ToString()));
-            oscilloSpeed.appendData(Double.Parse((5.0).ToString()), Double.Parse((10.0).ToString()));
             
+            oscilloDirection.AddPointToLine(0, Double.Parse((Robot.angleRadianFromOdometry* 57.2958).ToString()), Double.Parse((Robot.vitesseAngulaireFromOdometry).ToString()));
+            oscilloSpeed.AddPointToLine(0, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseLineaireFromOdometry).ToString()));
+            oscilloDistance.AddPointToLine(0, Double.Parse(0.ToString()), Double.Parse((Robot.sensor[2]/ 100.0).ToString()));
+            Console.WriteLine((Robot.distanceTelemetreCentre / 100.0).ToString());
+            oscilloDistance.AddPointToLine(0, Double.Parse(30.ToString()), Double.Parse(((Robot.sensor[4] / 100.0).ToString() ).ToString()));
+
         }
         public void receptionWindowDisplay(string textReceived, string dataToDspType)
         {

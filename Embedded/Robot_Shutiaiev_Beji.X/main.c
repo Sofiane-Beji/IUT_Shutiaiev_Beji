@@ -49,6 +49,7 @@ int main(void) {
     
     // Boucle Principale
     robotState.avoidingObstaclesBool = 1;
+    ADCClearConversionFinishedFlag();
     while (1) {
         //UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
         

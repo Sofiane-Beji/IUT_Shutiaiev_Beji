@@ -7,9 +7,7 @@
 
 
 void avoidingObstacles() {
-    if (robotState.avoidingObstaclesBool != 1) {
-        return;
-    }
+    
     if(STOP == 1){
         PWMSpeedConsigne(0.0, MOTEUR_DROIT);
         PWMSpeedConsigne(0.0, MOTEUR_GAUCHE);
@@ -58,21 +56,21 @@ void avoidingObstacles() {
         sensorCase += 0b1;
     }
 
-    float speedNormal = 24.0;
+    float speedNormal = 0.0;//24.0;
     float speedTurn = 0.0;//3.0  //0
-    float speedSlow = -5.0;//6.0 //-5
+    float speedSlow = 0.0;//-5.0;//6.0 //-5
     
     
     
-    if(robotState.distanceTelemetreDroit <= 19.0 && robotState.distanceTelemetreGauche <= 19.0)
-    {
-        PWMSpeedConsigne(-speedNormal+8, MOTEUR_DROIT);
-        PWMSpeedConsigne(speedNormal-8, MOTEUR_GAUCHE);
-        robotState.delay = 1;
-        robotState.delayTime = 1;
-        robotState.turn = 1;
-        return;
-    }
+//    if(robotState.distanceTelemetreDroit <= 19.0 && robotState.distanceTelemetreGauche <= 19.0)
+//    {
+//        PWMSpeedConsigne(-speedNormal+8, MOTEUR_DROIT);
+//        PWMSpeedConsigne(speedNormal-8, MOTEUR_GAUCHE);
+//        robotState.delay = 1;
+//        robotState.delayTime = 1;
+//        robotState.turn = 1;
+//        return;
+//    }
     
     
 
@@ -113,53 +111,53 @@ void avoidingObstacles() {
     
     
     
-    switch (sensorCase) {
-        case 0://AVANT
-            PWMSpeedConsigne(speedNormal, MOTEUR_DROIT);
-            PWMSpeedConsigne(speedNormal - 1.0, MOTEUR_GAUCHE);
-            break;
-        case 1://-GAUCHE
-            PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_DROIT);
-            PWMSpeedConsigne(speedTurn, MOTEUR_GAUCHE);
-            break;
-        case 2://+GAUCHE
-            PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_DROIT);
-            PWMSpeedConsigne(speedSlow, MOTEUR_GAUCHE);
-            break;
-        case 4://MILIEU CHOIX
-            //if (robotState.distanceTelemetreDroit <= robotState.distanceTelemetreGauche) {
-                PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_DROIT);
-                PWMSpeedConsigne(speedSlow, MOTEUR_GAUCHE);
-//            } else {
-//                PWMSpeedConsigne(speedSlow, MOTEUR_DROIT);
-//                PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_GAUCHE);
-//            }
-            break;
-//        case 5:
-//            PWMSpeedConsigne(speedNormal - 5, MOTEUR_DROIT);
+//    switch (sensorCase) {
+//        case 0://AVANT
+//            PWMSpeedConsigne(speedNormal, MOTEUR_DROIT);
+//            PWMSpeedConsigne(speedNormal - 1.0, MOTEUR_GAUCHE);
+//            break;
+//        case 1://-GAUCHE
+//            PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_DROIT);
+//            PWMSpeedConsigne(speedTurn, MOTEUR_GAUCHE);
+//            break;
+//        case 2://+GAUCHE
+//            PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_DROIT);
 //            PWMSpeedConsigne(speedSlow, MOTEUR_GAUCHE);
 //            break;
-        case 8://+DROIT
-            PWMSpeedConsigne(speedSlow, MOTEUR_DROIT);
-            PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_GAUCHE);
-            break;
-        case 9://-DROIT
-            PWMSpeedConsigne(speedTurn, MOTEUR_DROIT);
-            PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_GAUCHE);
-            break;
-        case 10:// 1/2 TOUR GAUCHE
-            PWMSpeedConsigne(speedNormal-8.0, MOTEUR_DROIT);
-            PWMSpeedConsigne(-speedNormal+8.0, MOTEUR_GAUCHE);
-            break;
-        case 12:// 1/2 TOUR DROIT
-            PWMSpeedConsigne(-speedNormal+8.0, MOTEUR_DROIT);
-            PWMSpeedConsigne(speedNormal-8.0, MOTEUR_GAUCHE);
-            break;
-        case 20: // ARRET
-            PWMSpeedConsigne(0.0, MOTEUR_DROIT);
-            PWMSpeedConsigne(0.0, MOTEUR_GAUCHE);
-            break;
+//        case 4://MILIEU CHOIX
+//            //if (robotState.distanceTelemetreDroit <= robotState.distanceTelemetreGauche) {
+//                PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_DROIT);
+//                PWMSpeedConsigne(speedSlow, MOTEUR_GAUCHE);
+////            } else {
+////                PWMSpeedConsigne(speedSlow, MOTEUR_DROIT);
+////                PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_GAUCHE);
+////            }
+//            break;
+////        case 5:
+////            PWMSpeedConsigne(speedNormal - 5, MOTEUR_DROIT);
+////            PWMSpeedConsigne(speedSlow, MOTEUR_GAUCHE);
+////            break;
+//        case 8://+DROIT
+//            PWMSpeedConsigne(speedSlow, MOTEUR_DROIT);
+//            PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_GAUCHE);
+//            break;
+//        case 9://-DROIT
+//            PWMSpeedConsigne(speedTurn, MOTEUR_DROIT);
+//            PWMSpeedConsigne(speedNormal - 8.0, MOTEUR_GAUCHE);
+//            break;
+//        case 10:// 1/2 TOUR GAUCHE
+//            PWMSpeedConsigne(speedNormal-8.0, MOTEUR_DROIT);
+//            PWMSpeedConsigne(-speedNormal+8.0, MOTEUR_GAUCHE);
+//            break;
+//        case 12:// 1/2 TOUR DROIT
+//            PWMSpeedConsigne(-speedNormal+8.0, MOTEUR_DROIT);
+//            PWMSpeedConsigne(speedNormal-8.0, MOTEUR_GAUCHE);
+//            break;
+//        case 20: // ARRET
+//            PWMSpeedConsigne(0.0, MOTEUR_DROIT);
+//            PWMSpeedConsigne(0.0, MOTEUR_GAUCHE);
+//            break;
 
 
-    }
+    //}
 }
