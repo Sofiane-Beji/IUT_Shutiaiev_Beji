@@ -23,9 +23,12 @@ using WpfOscilloscopeControl;
 
 namespace RobotInterface
 {
-
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Logique d'interaction pour TroubleShootingPage.xaml
+    /// </summary>
+    public partial class TroubleShootingPage : Page
     {
+        
         bool rawTramDspMode = true;
         bool posDspMode = false;
         bool speedDspMode = false;
@@ -33,11 +36,13 @@ namespace RobotInterface
 
         ExtendedSerialPort serialPort1;
         DispatcherTimer timerAffichage;
-        
+
         Robot Robot = new Robot();
         String receptionWindowDspMode = "txt";
-        public MainWindow()
+
+        public TroubleShootingPage()
         {
+            InitializeComponent();
             // Set this code once in App.xaml.cs or application startup
             SciChartSurface.SetRuntimeLicenseKey("rawGYdZucXOANEX0TnQ0wSvPHXM3trkTCdRqc9VgfXhPE3bF05t7I6j41xW49IvBviM4ep3kbiO/Gj9qQ3rNDcq89Lm8hXfqu/0rMuj5hoTrcn1knJIGGB85+GaoUQP4ZV+mMFPnL3b2erT/NXobKdwi9SmlNJHfoesS4uM7AvLOSUymT8FknehVb1Ur9rqr1jxMn37sDcBql2nBHuDDSXiX1Fl0EB7OiMKyPZf+bEdqKE+j4+oOyZIGvuXbIAnffl4b1jv5J9vW2LmlDptXKLPQ42oywJwL+GmejhqV6VMSWB/9wtPfHKrPxRAI+7ViMMoKyIwR0Fch+PoLLRvA2ACLjXza3JCp3+SGXEGnajE8g+Wyey6gqIbxz1dGhEq8QXQa3X/QPfrZb4G/B+SFgo/Q8FJGn4sxCV+n469Wr92YF+d23giEOt49UFn2IL6czW19nFUQF09pRX6buAq0ULeFFeQs0vB0uxH+aosgIr5SuR6+W+9ptFSxJf+XZiA44wbhney7");
 
@@ -49,21 +54,7 @@ namespace RobotInterface
             timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 1);
             timerAffichage.Tick += TimerAffichage_Tick1;
             timerAffichage.Start();
-
-
-
-            //oscilloDirection.isDisplayActivated = true;
-            //oscilloSpeed.isDisplayActivated = true;
-            //oscilloDistance.isDisplayActivated = true;
-            //oscilloDirection.AddOrUpdateLine(0, 200, "Direct. & Speed");
-            //oscilloSpeed.AddOrUpdateLine(0, 200, "Speed lin.");
-            //oscilloDistance.AddOrUpdateLine(0, 200, "Distance");
-
-
-
-
         }
-
         public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
             for (int i = 0; i < e.Data.Length; i++)
@@ -75,19 +66,15 @@ namespace RobotInterface
         private void TimerAffichage_Tick1(object? sender, EventArgs e)
         {
             byte[] temp = new byte[64];
-            
-            for (int i = 0; i < Robot.byteListReceived.Count; i++) {
-                
+
+            for (int i = 0; i < Robot.byteListReceived.Count; i++)
+            {
+
                 byte receivedByte = Robot.byteListReceived.Dequeue();
                 receptionWindowDisplay(receivedByte.ToString("X2"), "txt"); //affichage de tram
-                Robot.CallDecodeMessage(receivedByte ); //traitement de tram
+                Robot.CallDecodeMessage(receivedByte); //traitement de tram
             }
-            
-            //oscilloDirection.AddPointToLine(0, Double.Parse((Robot.angleRadianFromOdometry* 57.2958).ToString()), Double.Parse((Robot.vitesseAngulaireFromOdometry).ToString()));
-            //oscilloSpeed.AddPointToLine(0, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseLineaireFromOdometry).ToString()));
-            //oscilloDistance.AddPointToLine(0, Double.Parse(0.ToString()), Double.Parse((Robot.sensor[2]/ 100.0).ToString()));
-            //Console.WriteLine((Robot.distanceTelemetreCentre / 100.0).ToString());
-            //oscilloDistance.AddPointToLine(0, Double.Parse(30.ToString()), Double.Parse(((Robot.sensor[4] / 100.0).ToString() ).ToString()));
+
 
         }
         public void receptionWindowDisplay(string textReceived, string dataToDspType)
@@ -124,13 +111,15 @@ namespace RobotInterface
                 {
                     TextBoxReception.Text += "------------Raw data\n";
                 }
-                }
-            if (rawTramDspMode) {
-                
-                TextBoxReception.Text += textReceived; }
+            }
+            if (rawTramDspMode)
+            {
+
+                TextBoxReception.Text += textReceived;
+            }
         }
-           
-            
+
+
 
         private void TextBoxEmission_TextChanged()
         {
@@ -141,7 +130,8 @@ namespace RobotInterface
         {
         }
 
-        void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload) {
+        void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
             byte[] tram = new byte[6 + msgPayloadLength];
             tram[0] = 0xFE;
             tram[1] = (byte)(msgFunction >> 8);
@@ -151,7 +141,7 @@ namespace RobotInterface
 
             for (int i = 5; i < msgPayload.Length + 5; i++)
             {
-               
+
                 tram[i] = (byte)(msgPayload[i - 5]);
             }
             byte checkSum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
@@ -170,7 +160,7 @@ namespace RobotInterface
             checksum ^= (byte)(msgPayloadLength >> 0);
 
 
-            for (int i = 0; i < msgPayload.Length - 1; i++) 
+            for (int i = 0; i < msgPayload.Length - 1; i++)
             {
                 checksum ^= msgPayload[i];
             }
@@ -181,6 +171,11 @@ namespace RobotInterface
         private void BoutonEnvoyer_Click_1(object sender, RoutedEventArgs e)
         {
             SendMessage();
+        }
+
+        private void boutonGoToNavigation_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         private void TextBoxEmission_KeyUp_1(object sender, KeyEventArgs e)
@@ -230,11 +225,11 @@ namespace RobotInterface
 
         }
 
-      
+
 
         private void boutonClear_Click(object sender, RoutedEventArgs e)
         {
-            TextBoxReception.Text = ""; 
+            TextBoxReception.Text = "";
         }
 
         private void boutonTest_Click(object sender, RoutedEventArgs e)
@@ -243,7 +238,7 @@ namespace RobotInterface
             byte[] temp = Encoding.ASCII.GetBytes(text);
             UartEncodeAndSendMessage(0x0080, temp.Length, temp);
         }
-        
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -295,7 +290,5 @@ namespace RobotInterface
         {
 
         }
-
-       
     }
 }
