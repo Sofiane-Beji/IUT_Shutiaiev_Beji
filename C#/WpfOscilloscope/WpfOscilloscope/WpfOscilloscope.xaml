@@ -18,7 +18,7 @@
 
             <!--  Create an X Axis with Growby  -->
             <s:SciChartSurface.XAxis>
-            <s:NumericAxis DrawMajorBands="True" FlipCoordinates="False" GrowBy="0.1, 0.1" ScientificNotation="None" TextFormatting="#.0" AutoRange="Always"  Cursor="SizeWE" AxisTitle="Time" Height="33" />
+            <s:NumericAxis DrawMajorBands="True" FlipCoordinates="False" GrowBy="0.1, 0.1" ScientificNotation="None" TextFormatting="#.0" AutoRange="Always" VisibleRange ="-2, 2" Cursor="SizeWE" AxisTitle="Time" Height="33" />
             </s:SciChartSurface.XAxis>
             
 
