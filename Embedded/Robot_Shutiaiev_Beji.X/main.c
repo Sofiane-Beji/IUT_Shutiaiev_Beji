@@ -32,9 +32,10 @@ int main(void) {
     InitUART();
     //PWMSetSpeed(, MOTEUR_DROIT);
     //PWMSetSpeed(-10, MOTEUR_GAUCHE);
-    //PWMSpeedConsigne(20, MOTEUR_DROIT);
-    //PWMSpeedConsigne(20, MOTEUR_GAUCHE);
-
+    
+    PWMSpeedConsigne(50, MOTEUR_DROIT);
+    PWMSpeedConsigne(50, MOTEUR_GAUCHE);
+    PWMUpdateSpeed();
 
 
     // Configuration des input et output (IO)

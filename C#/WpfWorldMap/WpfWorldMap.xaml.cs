@@ -24,8 +24,8 @@ namespace WpfWorldMap_NS
         private double _angle;
         // Déplace le cercle en cercle
         
-        private double pos_X = 20;
-        private double pos_Y = 50;
+        private double pos_X = 0;
+        private double pos_Y = 0;
 
         public WpfWorldMap()
         {
@@ -55,8 +55,10 @@ namespace WpfWorldMap_NS
 
             this._robot = new CustomAnnotation
             {
-                X1 = 20,
-                Y1 = 30,
+                //X1 = 20,
+                //Y1 = 30,
+                X1 = 10,
+                Y1 = 15,
                 Content = triangle,
                 HorizontalAnchorPoint = HorizontalAnchorPoint.Center,
                 VerticalAnchorPoint = VerticalAnchorPoint.Center
@@ -83,7 +85,7 @@ namespace WpfWorldMap_NS
                 HorizontalAnchorPoint = HorizontalAnchorPoint.Center,
                 VerticalAnchorPoint = VerticalAnchorPoint.Center
             };
-            sciChartSurface.Annotations.Add(mur1);
+            //sciChartSurface.Annotations.Add(mur1);
 
             var mur2 = new CustomAnnotation
             {
@@ -91,7 +93,7 @@ namespace WpfWorldMap_NS
                 Y1 = w ,
                 Content = new Rectangle
                 {
-                    Width = 1000,
+                    Width = 100,
                     Height = 10,
                     Fill = Brushes.Green,
                     Stroke = Brushes.Black,
@@ -100,7 +102,7 @@ namespace WpfWorldMap_NS
                 HorizontalAnchorPoint = HorizontalAnchorPoint.Center,
                 VerticalAnchorPoint = VerticalAnchorPoint.Center
             };
-            sciChartSurface.Annotations.Add(mur2);
+            //sciChartSurface.Annotations.Add(mur2);
 
             var mur3 = new CustomAnnotation
             {
@@ -109,7 +111,7 @@ namespace WpfWorldMap_NS
                 Content = new Rectangle
                 {
                     Width = 10,
-                    Height = 1000,
+                    Height = 100,
                     Fill = Brushes.Green,
                     Stroke = Brushes.Black,
                     StrokeThickness = 0,
@@ -117,7 +119,7 @@ namespace WpfWorldMap_NS
                 HorizontalAnchorPoint = HorizontalAnchorPoint.Center,
                 VerticalAnchorPoint = VerticalAnchorPoint.Center
             };
-            sciChartSurface.Annotations.Add(mur3);
+            //sciChartSurface.Annotations.Add(mur3);
 
             var mur4 = new CustomAnnotation
             {
@@ -126,7 +128,7 @@ namespace WpfWorldMap_NS
                 Content = new Rectangle
                 {
                     Width = 10,
-                    Height = 1000,
+                    Height = 100,
                     Fill = Brushes.Green,
                     Stroke = Brushes.Black,
                     StrokeThickness = 0,
@@ -134,7 +136,7 @@ namespace WpfWorldMap_NS
                 HorizontalAnchorPoint = HorizontalAnchorPoint.Center,
                 VerticalAnchorPoint = VerticalAnchorPoint.Center
             };
-            sciChartSurface.Annotations.Add(mur4);
+            //sciChartSurface.Annotations.Add(mur4);
 
 
 
@@ -176,7 +178,7 @@ namespace WpfWorldMap_NS
 
         public void UpdateOrientationRobot(double angleDegres)
         {
-            _angle = angleDegres;
+            _angle = angleDegres + 90;
             _rotation.Angle = _angle;
         }
 

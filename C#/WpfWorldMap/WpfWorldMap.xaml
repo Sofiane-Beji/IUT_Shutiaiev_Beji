@@ -8,10 +8,10 @@
 
     <s:SciChartSurface x:Name="sciChartSurface">
         <s:SciChartSurface.XAxis>
-            <s:NumericAxis VisibleRange="0,100"/>
+            <s:NumericAxis VisibleRange="-2,2"/>
         </s:SciChartSurface.XAxis>
         <s:SciChartSurface.YAxis>
-            <s:NumericAxis VisibleRange="0,100"/>
+            <s:NumericAxis VisibleRange="-2,2"/>
         </s:SciChartSurface.YAxis>
     </s:SciChartSurface>
 

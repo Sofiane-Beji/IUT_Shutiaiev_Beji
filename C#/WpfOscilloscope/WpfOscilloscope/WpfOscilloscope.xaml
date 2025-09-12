@@ -28,8 +28,8 @@
             </s:SciChartSurface.YAxis>-->
 
             <s:SciChartSurface.YAxes>
-            <s:NumericAxis DrawMajorBands="True" GrowBy="0.5, 0.5" AutoRange="Once" VisibleRange ="-2, 2" AxisAlignment="Right" Id="RightYAxis" Cursor="SizeNS"/>
-            <s:NumericAxis DrawMajorBands="True" GrowBy="0.5, 0.5" AutoRange="Once" VisibleRange ="-2, 2"  AxisAlignment="Left" Id="LeftYAxis" Cursor="SizeNS"/>
+            <s:NumericAxis DrawMajorBands="True" GrowBy="0.5, 0.5" AutoRange="Once" VisibleRange ="-3.2, 3.2" AxisAlignment="Right" Id="RightYAxis" Cursor="SizeNS"/>
+            <s:NumericAxis DrawMajorBands="True" GrowBy="0.5, 0.5" AutoRange="Once" VisibleRange ="-3.2, 3.2"  AxisAlignment="Left" Id="LeftYAxis" Cursor="SizeNS"/>
             </s:SciChartSurface.YAxes>
 
             <s:SciChartSurface.ChartModifier>

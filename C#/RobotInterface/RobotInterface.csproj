@@ -16,7 +16,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj" />
+    <ProjectReference Include="..\Utilities\Utilities.csproj" />
     <ProjectReference Include="..\WpfOscilloscope\WpfOscilloscope\WpfOscilloscopeControl.csproj" />
+    <ProjectReference Include="..\WpfWorldMap\WpfWorldMap.csproj" />
   </ItemGroup>
 
   <ItemGroup>

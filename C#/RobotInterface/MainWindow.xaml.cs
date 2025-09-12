@@ -20,6 +20,8 @@ using SciChart.Charting.Visuals;
 
 using System.Windows.Media;
 using WpfOscilloscopeControl;
+using WpfWorldMap_NS;
+using WpfAsservissementDisplay;
 
 namespace RobotInterface
 {
@@ -37,7 +39,6 @@ namespace RobotInterface
         Robot Robot = new Robot();
         String receptionWindowDspMode = "txt";
 
-        int lineId = 0;
 
         public MainWindow()
         {
@@ -45,7 +46,7 @@ namespace RobotInterface
             SciChartSurface.SetRuntimeLicenseKey("rawGYdZucXOANEX0TnQ0wSvPHXM3trkTCdRqc9VgfXhPE3bF05t7I6j41xW49IvBviM4ep3kbiO/Gj9qQ3rNDcq89Lm8hXfqu/0rMuj5hoTrcn1knJIGGB85+GaoUQP4ZV+mMFPnL3b2erT/NXobKdwi9SmlNJHfoesS4uM7AvLOSUymT8FknehVb1Ur9rqr1jxMn37sDcBql2nBHuDDSXiX1Fl0EB7OiMKyPZf+bEdqKE+j4+oOyZIGvuXbIAnffl4b1jv5J9vW2LmlDptXKLPQ42oywJwL+GmejhqV6VMSWB/9wtPfHKrPxRAI+7ViMMoKyIwR0Fch+PoLLRvA2ACLjXza3JCp3+SGXEGnajE8g+Wyey6gqIbxz1dGhEq8QXQa3X/QPfrZb4G/B+SFgo/Q8FJGn4sxCV+n469Wr92YF+d23giEOt49UFn2IL6czW19nFUQF09pRX6buAq0ULeFFeQs0vB0uxH+aosgIr5SuR6+W+9ptFSxJf+XZiA44wbhney7");
 
             InitializeComponent();
-            serialPort1 = new ExtendedSerialPort("COM3", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort("COM11", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -55,13 +56,16 @@ namespace RobotInterface
 
 
             oscilloSpeed.isDisplayActivated = true;
-            oscilloSpeed.AddOrUpdateLine(lineId, 200, "Vitesse");
+            oscilloSpeed.AddOrUpdateLine(0, 200, "Vitesse");
+            oscilloSpeed.ChangeLineColor("Vitesse", Colors.LightBlue);
+            oscilloSpeed.AddOrUpdateLine(1, 200, "AngleRadian");
+            oscilloSpeed.ChangeLineColor("AngleRadian", Colors.Yellow);
 
             //oscilloDirection.isDisplayActivated = true;
             //oscilloDistance.isDisplayActivated = true;
             //oscilloDirection.AddOrUpdateLine(0, 200, "Direct. & Speed");
             //oscilloDistance.AddOrUpdateLine(lineId, 200, "Distance");
-            
+
 
 
 
@@ -88,11 +92,20 @@ namespace RobotInterface
             }
 
             //oscilloDirection.AddPointToLine(0, Double.Parse((Robot.angleRadianFromOdometry* 57.2958).ToString()), Double.Parse((Robot.vitesseAngulaireFromOdometry).ToString()));
-            oscilloSpeed.AddPointToLine(lineId, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseLineaireFromOdometry).ToString()));
-            
+            oscilloSpeed.AddPointToLine(0, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.vitesseLineaireFromOdometry).ToString()));
+            oscilloSpeed.AddPointToLine(1, Double.Parse((Robot.timestamp).ToString()), Double.Parse((Robot.angleRadianFromOdometry).ToString()));
+
             //oscilloDistance.AddPointToLine(lineId, Double.Parse(0.ToString()), Double.Parse((Robot.sensor[2]/ 100.0).ToString()));
             //Console.WriteLine((Robot.distanceTelemetreCentre / 100.0).ToString());
             //oscilloDistance.AddPointToLine(lineId, Double.Parse(30.ToString()), Double.Parse(((Robot.sensor[4] / 100.0).ToString() ).ToString()));
+
+            worldMapDisplay.UpdatePosRobot(Robot.xPosFromOdometry, Robot.yPosFromOdometry);
+            worldMapDisplay.UpdateOrientationRobot(Robot.angleDegre);
+
+            asservSpeedDisplay.UpdateIndependantOdometry(Robot.xPosFromOdometry, Robot.yPosFromOdometry);
+
+
+
 
         }
         public void receptionWindowDisplay(string textReceived, string dataToDspType)
@@ -122,6 +135,7 @@ namespace RobotInterface
                     TextBoxReception.Text += "xPosFromOdometry: " + (Robot.xPosFromOdometry).ToString() + "\n";
                     TextBoxReception.Text += "yPosFromOdometry: " + (Robot.yPosFromOdometry).ToString() + "\n";
                     TextBoxReception.Text += "angleRadianFromOdometry: " + (Robot.angleRadianFromOdometry).ToString() + "\n";
+                    TextBoxReception.Text += "angleDegre: " + (Robot.angleDegre).ToString() + "\n";
                     TextBoxReception.Text += "vitesseLineaireFromOdometry: " + (Robot.vitesseLineaireFromOdometry).ToString() + "\n";
                     TextBoxReception.Text += "vitesseAngulaireFromOdometry: " + (Robot.vitesseAngulaireFromOdometry).ToString() + "\n\n";
                 }

@@ -16,6 +16,7 @@ public class Robot
     public float xPosFromOdometry = 0.0f;
     public float yPosFromOdometry = 0.0f;
     public float angleRadianFromOdometry = 0.0f;
+    public float angleDegre = 0.0f;
     public float vitesseLineaireFromOdometry = 0.0f;
     public float vitesseAngulaireFromOdometry = 0.0f;
     public Robot()
@@ -57,13 +58,14 @@ public class Robot
     }
     private void PositionReconstructData(byte[] c)
     {   
-            timestamp = BitConverter.ToSingle(c, 0);
-            xPosFromOdometry = BitConverter.ToSingle(c, 4);
-            yPosFromOdometry = BitConverter.ToSingle(c, 8);
-            angleRadianFromOdometry = BitConverter.ToSingle(c, 12);
-            vitesseLineaireFromOdometry = BitConverter.ToSingle(c, 16);
-            vitesseAngulaireFromOdometry = BitConverter.ToSingle(c, 20);
-            Debug.WriteLine(timestamp);
+        timestamp = BitConverter.ToSingle(c, 0);
+        xPosFromOdometry = BitConverter.ToSingle(c, 4);
+        yPosFromOdometry = BitConverter.ToSingle(c, 8);
+        angleRadianFromOdometry = BitConverter.ToSingle(c, 12);
+        angleDegre = angleRadianFromOdometry * (-180) / 3.14159265359f;
+        vitesseLineaireFromOdometry = BitConverter.ToSingle(c, 16);
+        vitesseAngulaireFromOdometry = BitConverter.ToSingle(c, 20);
+        Debug.WriteLine(timestamp);
     }
     private void DecodeMessage(byte c)
     {
