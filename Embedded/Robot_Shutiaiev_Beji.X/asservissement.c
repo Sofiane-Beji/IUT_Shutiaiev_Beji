@@ -18,6 +18,8 @@
     PidCorr->erreurDeriveeMax = deriveeMax;
 }
  
+
+ 
  
  
 //float Correcteur(volatile PidCorrector* PidCorr, float erreur)
@@ -69,6 +71,10 @@
 
 void UpdateAsservissement(){
    
+    //TEST
+    robotState.consigneVitesseLineaire = 2.4f;
+    robotState.consigneVitesseAngulaire = 5.9f;
+    
     robotState.PidX.erreur = robotState.consigneVitesseLineaire - robotState.vitesseLineaireFromOdometry;
     robotState.PidTheta.erreur = robotState.consigneVitesseAngulaire - robotState.vitesseAngulaireFromOdometry;
    
@@ -84,7 +90,7 @@ void UpdateAsservissement(){
 }
 
 void sendPID(int codeFunction){
-    unsigned char msg[48];
+      unsigned char msg[48];
     getBytesFromFloat(msg, 0, robotState.PidX.Kp);
     getBytesFromFloat(msg, 4, robotState.PidX.Ki);
     getBytesFromFloat(msg, 8, robotState.PidX.Kd);
@@ -99,6 +105,7 @@ void sendPID(int codeFunction){
     getBytesFromFloat(msg, 40, robotState.PidTheta.erreurIntegraleMax);
     getBytesFromFloat(msg, 44, robotState.PidTheta.erreurDeriveeMax);
    
+    //UartEncodeAndSendMessage(codeFunction, 48, msg);
     UartEncodeAndSendMessage(codeFunction, 48, msg);
  }
  

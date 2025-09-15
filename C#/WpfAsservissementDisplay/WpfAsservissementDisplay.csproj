@@ -56,6 +56,18 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.4.2.13, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.4.2\lib\netstandard2.0\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="SciChart.Charting, Version=8.8.0.28567, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\RobotInterface\packages\SciChart.8.8.0.28567\lib\net462\SciChart.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Core, Version=8.8.0.28567, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\RobotInterface\packages\SciChart.8.8.0.28567\lib\net462\SciChart.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Data, Version=8.8.0.28567, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\RobotInterface\packages\SciChart.8.8.0.28567\lib\net462\SciChart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Drawing, Version=8.8.0.28567, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <HintPath>..\RobotInterface\packages\SciChart.8.8.0.28567\lib\net462\SciChart.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -141,9 +153,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtendedSerialPort\ExtendedSerialPort\ExtendedSerialPort.csproj">
+      <Project>{64418739-531a-4680-8a73-33cdda6a6295}</Project>
+      <Name>ExtendedSerialPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RobotInterface\RobotInterface.csproj">
+      <Project>{ce71d919-7ed5-4561-9e71-4faabb6796e5}</Project>
+      <Name>RobotInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{8E7D0DA4-9A13-4B18-A90E-0243BBCCE40A}</Project>
       <Name>Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfOscilloscope\WpfOscilloscope\WpfOscilloscopeControl.csproj">
+      <Project>{88baa407-3fea-4f4b-bb41-5309ce48884e}</Project>
+      <Name>WpfOscilloscopeControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfWorldMap\WpfWorldMap.csproj">
+      <Project>{e508c308-4edd-414c-99ae-93b327d47e26}</Project>
+      <Name>WpfWorldMap</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

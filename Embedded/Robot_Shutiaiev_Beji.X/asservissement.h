@@ -25,6 +25,14 @@ double corrI;
 double corrD;
 }PidCorrector;
 
+void UpdateAsservissement(void);
+void sendPID(int codeFunction);
+void sendAsserv(int codeFunction);
+double Correcteur(volatile PidCorrector* PidCorr, float erreur);
+void SetupPidAsservissement(volatile PidCorrector* PidCorr, float Kp, float Ki, float Kd, float proportionelleMax, float integralMax, float deriveeMax);
+
+ 
+
 
 #endif	/* ASSERVISSEMENT_H */
 

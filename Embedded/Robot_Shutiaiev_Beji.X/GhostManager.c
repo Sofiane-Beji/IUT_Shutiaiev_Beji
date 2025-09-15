@@ -43,7 +43,7 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
     // Target -> le waypoint : c'est où on veut aller
     double thetaTarget = atan2(ghostPosition.targetY - ghostPosition.y, ghostPosition.targetX - ghostPosition.x);
     // Theta entre le robot et où on veut aller
-    double thetaRestant = Modulo2PIAngleRadian(ghostPosition.theta, thetaTarget) - ghostPosition.theta;
+    double thetaRestant = moduloByAngle(ghostPosition.theta, thetaTarget) - ghostPosition.theta;
     ghostPosition.angleToTarget = thetaRestant;
     // Theta à partir duquel on considère que c'est good
     double thetaArret = ghostPosition.angularSpeed * ghostPosition.angularSpeed / (2 * accelerationAngulaire);
@@ -76,7 +76,7 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
             if (thetaRestant > 0) {
                 ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + accelerationAngulaire / FREQ_ECH_QEI, MAX_ANGULAR_SPEED);
             } else if (thetaRestant < 0) {
-                ghostPosition.angularSpeed = MaghostPosition.angularSpeed - accelerationAngulaire / FREQ_ECH_QEI, -MAX_ANGULAR_SPEED);
+                ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - accelerationAngulaire / FREQ_ECH_QEI, -MAX_ANGULAR_SPEED);
             }
             //        else {
             //            ghostPosition.angularSpeed = 0;
@@ -85,11 +85,11 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
         } else {
             //on freine en rampe saturée
             if (thetaRestant >= 0 && ghostPosition.angularSpeed > 0) {
-                ghostPosition.angularSpeed = MaghostPosition.angularSpeed - accelerationAngulaire / FREQ_ECH_QEI, 0);
+                ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - accelerationAngulaire / FREQ_ECH_QEI, 0);
             } else if (thetaRestant >= 0 && ghostPosition.angularSpeed < 0) {
                 ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + accelerationAngulaire / FREQ_ECH_QEI, 0);
             } else if (thetaRestant <= 0 && ghostPosition.angularSpeed > 0) {
-                ghostPosition.angularSpeed = MaghostPosition.angularSpeed - accelerationAngulaire / FREQ_ECH_QEI, 0);
+                ghostPosition.angularSpeed = Max(ghostPosition.angularSpeed - accelerationAngulaire / FREQ_ECH_QEI, 0);
             } else if (thetaRestant <= 0 && ghostPosition.angularSpeed < 0) {
                 ghostPosition.angularSpeed = Min(ghostPosition.angularSpeed + accelerationAngulaire / FREQ_ECH_QEI, 0);
             }
@@ -119,16 +119,16 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
                 if (distanceRestante > 0) {
                     ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + accelerationLineaire / FREQ_ECH_QEI, MAX_LINEAR_SPEED);
                 } else if (distanceRestante < 0) {
-                    ghostPosition.linearSpeed = MaghostPosition.linearSpeed - accelerationLineaire / FREQ_ECH_QEI, -MAX_LINEAR_SPEED);
+                    ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - accelerationLineaire / FREQ_ECH_QEI, -MAX_LINEAR_SPEED);
                 }
             } else {
 
                 if (distanceRestante >= 0 && ghostPosition.linearSpeed > 0) {
-                    ghostPosition.linearSpeed = MaghostPosition.linearSpeed - accelerationLineaire / FREQ_ECH_QEI, 0);
+                    ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - accelerationLineaire / FREQ_ECH_QEI, 0);
                 } else if (distanceRestante >= 0 && ghostPosition.linearSpeed < 0) {
                     ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + accelerationLineaire / FREQ_ECH_QEI, 0);
                 } else if (distanceRestante <= 0 && ghostPosition.linearSpeed > 0) {
-                    ghostPosition.linearSpeed = MaghostPosition.linearSpeed - accelerationLineaire / FREQ_ECH_QEI, 0);
+                    ghostPosition.linearSpeed = Max(ghostPosition.linearSpeed - accelerationLineaire / FREQ_ECH_QEI, 0);
                 } else if (distanceRestante <= 0 && ghostPosition.linearSpeed < 0) {
                     ghostPosition.linearSpeed = Min(ghostPosition.linearSpeed + accelerationLineaire / FREQ_ECH_QEI, 0);
                 }
@@ -267,7 +267,7 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
 
 void SendGhostData() {
     unsigned char positionPayload[24];
-    getBytesFromInt32(positionPayload, 0, timestamp);
+    getBytesFromInt32(positionPayload, 0, robotState.timestamp);
     getBytesFromFloat(positionPayload, 4, (float) (ghostPosition.angularSpeed));
     getBytesFromFloat(positionPayload, 8, (float) (ghostPosition.linearSpeed));
     getBytesFromFloat(positionPayload, 12, (float) (ghostPosition.theta));

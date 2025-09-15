@@ -9,9 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="WpfAsservissementDisplay\.vs\WpfAsservissementDisplay\FileContentIndex\b2e61d0f-e7f5-439a-bb7c-ffcbadaba300.vsidx" />
-    <None Include="WpfAsservissementDisplay\.vs\WpfAsservissementDisplay\v17\.suo" />
-    <None Include="WpfAsservissementDisplay\WpfAsservissementDisplay.csproj" />
+    <Compile Remove="WpfAsservissementDisplay\**" />
+    <EmbeddedResource Remove="WpfAsservissementDisplay\**" />
+    <None Remove="WpfAsservissementDisplay\**" />
+    <Page Remove="WpfAsservissementDisplay\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +26,6 @@
     <Reference Include="WpfAsservissementDisplay">
       <HintPath>..\WpfAsservissementDisplay\obj\Debug\WpfAsservissementDisplay.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="WpfAsservissementDisplay\obj\Debug\TempPE\" />
   </ItemGroup>
 
 </Project>

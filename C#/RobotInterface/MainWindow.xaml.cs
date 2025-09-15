@@ -22,6 +22,9 @@ using System.Windows.Media;
 using WpfOscilloscopeControl;
 using WpfWorldMap_NS;
 using WpfAsservissementDisplay;
+using Newtonsoft.Json.Linq;
+using System.ComponentModel.Design;
+using System.Diagnostics;
 
 namespace RobotInterface
 {
@@ -102,10 +105,19 @@ namespace RobotInterface
             worldMapDisplay.UpdatePosRobot(Robot.xPosFromOdometry, Robot.yPosFromOdometry);
             worldMapDisplay.UpdateOrientationRobot(Robot.angleDegre);
 
-            asservSpeedDisplay.UpdateIndependantOdometry(Robot.xPosFromOdometry, Robot.yPosFromOdometry);
+            //asservSpeedDisplay.UpdateIndependantOdometry(Robot.xPosFromOdometry, Robot.yPosFromOdometry);
+            asservSpeedDisplay.UpdatePolarCorrectionGains(Robot.kpX, Robot.kpTheta, Robot.kiX, Robot.kiTheta, Robot.kdX, Robot.kdTheta);
+            asservSpeedDisplay.UpdatePolarCorrectionLimits(Robot.proportionnelleMaxX, Robot.proportionnelleMaxTheta, Robot.integralMaxX, Robot.integralMaxTheta, Robot.deriveeMaxX, Robot.deriveeMaxTheta);
 
-
-
+            asservSpeedDisplay.UpdatePolarConsigneValues(Robot.consigneX, Robot.consigneTheta);
+            asservSpeedDisplay.UpdateIndependantConsigneValues(Robot.consigneM1, Robot.consigneM2);
+            asservSpeedDisplay.UpdatePolarCommandValues(Robot.commandX, Robot.commandtheta);
+            asservSpeedDisplay.UpdateIndependantSpeedCommandValues(Robot.commandM1, Robot.commandM2);
+            asservSpeedDisplay.UpdatePolarOdometry(Robot.valueX, Robot.valueTheta);
+            asservSpeedDisplay.UpdateIndependantOdometry(Robot.valueM1, Robot.valueM2);
+            asservSpeedDisplay.UpdatePolarErrorValues(Robot.errorX, Robot.errorTheta);
+            asservSpeedDisplay.UpdateIndependantErrorValues(Robot.errorM1, Robot.errorM2);
+            asservSpeedDisplay.UpdatePolarCorrectionValues(Robot.corrPX, Robot.corrPTheta, Robot.corrIX, Robot.corrITheta, Robot.corrDX, Robot.corrDTheta);
 
         }
         public void receptionWindowDisplay(string textReceived, string dataToDspType)
@@ -138,6 +150,16 @@ namespace RobotInterface
                     TextBoxReception.Text += "angleDegre: " + (Robot.angleDegre).ToString() + "\n";
                     TextBoxReception.Text += "vitesseLineaireFromOdometry: " + (Robot.vitesseLineaireFromOdometry).ToString() + "\n";
                     TextBoxReception.Text += "vitesseAngulaireFromOdometry: " + (Robot.vitesseAngulaireFromOdometry).ToString() + "\n\n";
+
+                    TextBoxReception.Text += "Ghost_Xpos : " + (Robot.positionXGhosto).ToString() + "\n";
+                    TextBoxReception.Text += "Ghost_Xpos : " + (Robot.positionYGhosto).ToString() + "\n";
+                    TextBoxReception.Text += "Angle_RadGhost : " + (Robot.angleRadGhosto).ToString() + "\n";
+
+                    TextBoxReception.Text += "KpX = " + Robot.kpX + " kiX = " + Robot.kiX + " kdX = " + Robot.kdX + "\n" + "PropX = " +
+                    Robot.proportionnelleMaxX + " IntX = " + Robot.integralMaxX + " DerivX = " + Robot.deriveeMaxX + "\n\n" + "kpTheta = " + Robot.kpTheta + " kiTheta = " + Robot.kiTheta + " kdTheta = " + Robot.kdTheta + "\n" + "proportionnelleMaxTheta = " +
+                    Robot.proportionnelleMaxTheta + " integralMaxTheta = " + Robot.integralMaxTheta + " deriveeMaxTheta = " + Robot.deriveeMaxTheta + "\n";
+
+                    TextBoxReception.Text += debg;
                 }
                 if (rawTramDspMode)
                 {
@@ -189,7 +211,7 @@ namespace RobotInterface
             checksum ^= (byte)(msgPayloadLength >> 0);
 
 
-            for (int i = 0; i < msgPayload.Length - 1; i++) 
+            for (int i = 0; i < msgPayload.Length ; i++) 
             {
                 checksum ^= msgPayload[i];
             }
@@ -249,7 +271,7 @@ namespace RobotInterface
 
         }
 
-      
+        string debg;
 
         private void boutonClear_Click(object sender, RoutedEventArgs e)
         {
@@ -258,11 +280,46 @@ namespace RobotInterface
 
         private void boutonTest_Click(object sender, RoutedEventArgs e)
         {
-            string text = "Bonjour";
-            byte[] temp = Encoding.ASCII.GetBytes(text);
-            UartEncodeAndSendMessage(0x0080, temp.Length, temp);
+            float kpX = 1.0f;
+            float kiX = 2.0f;
+            float kdX = 3.0f;
+            float limitPX = 4.0f;
+            float limitIX = 5.0f;
+            float limitDX = 6.0f;
+            float kpTheta = 7.0f;
+            float kiTheta = 8.0f;
+            float kdTheta = 9.0f;
+            float limitPTheta = 10.0f;
+            float limitITheta = 11.0f;
+            float limitDTheta = 12.0f;
+            byte[] pidPayload = new byte[48];
+            BitConverter.GetBytes(kpX).CopyTo(pidPayload, 0);
+            BitConverter.GetBytes(kiX).CopyTo(pidPayload, 4);
+            BitConverter.GetBytes(kdX).CopyTo(pidPayload, 8);
+            BitConverter.GetBytes(limitPX).CopyTo(pidPayload, 12);
+            BitConverter.GetBytes(limitIX).CopyTo(pidPayload, 16);
+            BitConverter.GetBytes(limitDX).CopyTo(pidPayload, 20);
+            BitConverter.GetBytes(kpTheta).CopyTo(pidPayload, 24);
+            BitConverter.GetBytes(kiTheta).CopyTo(pidPayload, 28);
+            BitConverter.GetBytes(kdTheta).CopyTo(pidPayload, 32);
+            BitConverter.GetBytes(limitPTheta).CopyTo(pidPayload, 36);
+            BitConverter.GetBytes(limitITheta).CopyTo(pidPayload, 40);
+            BitConverter.GetBytes(limitDTheta).CopyTo(pidPayload, 44);
+
+            debg = null;
+            for (int i = 0; i < pidPayload.Length; i++)
+            {
+                debg += pidPayload[i] + "/";
+                Console.Write($"{pidPayload[i]:X2} ");
+            }
+            Console.WriteLine();
+
+
+            UartEncodeAndSendMessage(0x0061, pidPayload.Length, pidPayload);
+
         }
-        
+
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 

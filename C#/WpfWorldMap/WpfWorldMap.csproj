@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SciChart" Version="8.5.0.28148" />
+    <PackageReference Include="SciChart" Version="8.8.0.28567" />
   </ItemGroup>
 
 </Project>

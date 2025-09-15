@@ -28,7 +28,7 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
 
-                <GroupBox Header="Reception" Grid.Column="0" Grid.Row="1" Grid.RowSpan="1" Foreground="#ffffff" Background="#23233b" >
+                <GroupBox Header="Reception" Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Foreground="#ffffff" Background="#23233b" >
                     <TextBlock x:Name="TextBoxReception" Foreground="#ffffff" TextWrapping="Wrap"  Background="{x:Null}"/>
                 </GroupBox>
                 <GroupBox Header="Emission" Grid.Column="0" Grid.Row="0" Grid.RowSpan="1"  Foreground="#ffffff" BorderBrush="Black" Background="#2a332c">

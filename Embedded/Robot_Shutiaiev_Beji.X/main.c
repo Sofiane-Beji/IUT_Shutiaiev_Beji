@@ -30,12 +30,15 @@ int main(void) {
     InitPWM();
     
     InitUART();
+    
+    InitTrajectoryGenerator();
+    
     //PWMSetSpeed(, MOTEUR_DROIT);
     //PWMSetSpeed(-10, MOTEUR_GAUCHE);
     
-    PWMSpeedConsigne(50, MOTEUR_DROIT);
-    PWMSpeedConsigne(50, MOTEUR_GAUCHE);
-    PWMUpdateSpeed();
+    //PWMSpeedConsigne(50, MOTEUR_DROIT);
+    //PWMSpeedConsigne(50, MOTEUR_GAUCHE);
+    //PWMUpdateSpeed();
 
 
     // Configuration des input et output (IO)
@@ -51,16 +54,20 @@ int main(void) {
     // Boucle Principale
     robotState.avoidingObstaclesBool = 1;
     ADCClearConversionFinishedFlag();
+    
+    
+    
     while (1) {
         //UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, unsigned char* msgPayload);
         
         //LED_BLANCHE_1 = !LED_BLANCHE_1;
-//        for (int i = 0; i < CB_RX2_GetDataSize(); i++) {
-//            unsigned char c = CB_RX2_Get();
-//            UartDecodeMessage(c);
-//            SendMessage(&c,1);
-//            
-//        }
+        for (int i = 0; i < CB_RX2_GetDataSize(); i++) {
+            unsigned char c = CB_RX2_Get();
+            UartDecodeMessage(c);
+            //SendMessage(&c,1);
+            
+        }
+        
         
         //__delay32(10000000);
         

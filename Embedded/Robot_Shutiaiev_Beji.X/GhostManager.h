@@ -66,8 +66,3 @@ void UpdateTrajectory();
 void SendGhostInfo();
 void PIDPosition();
 #endif /* GHOSTMANAGER_H */
-
-
-
-Le ven. 12 sept. 2025 à 09:32, BEJI SOFIANE <sofiane-beji@etud.univ-tln.fr> a écrit :
-rawGYdZucXOANEX0TnQ0wSvPHXM3trkTCdRqc9VgfXhPE3bF05t7I6j41xW49IvBviM4ep3kbiO/Gj9qQ3rNDcq89Lm8hXfqu/0rMuj5hoTrcn1knJIGGB85+GaoUQP4ZV+mMFPnL3b2erT/NXobKdwi9SmlNJHfoesS4uM7AvLOSUymT8FknehVb1Ur9rqr1jxMn37sDcBql2nBHuDDSXiX1Fl0EB7OiMKyPZf+bEdqKE+j4+oOyZIGvuXbIAnffl4b1jv5J9vW2LmlDptXKLPQ42oywJwL+GmejhqV6VMSWB/9wtPfHKrPxRAI+7ViMMoKyIwR0Fch+PoLLRvA2ACLjXza3JCp3+SGXEGnajE8g+Wyey6gqIbxz1dGhEq8QXQa3X/QPfrZb4G/B+SFgo/Q8FJGn4sxCV+n469Wr92YF+d23giEOt49UFn2IL6czW19nFUQF09pRX6buAq0ULeFFeQs0vB0uxH+aosgIr5SuR6+W+9ptFSxJf+XZiA44wbhney7

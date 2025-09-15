@@ -5,11 +5,12 @@
 #include "Robot.h"
 #include "UART.h"
 #include "UART_Protocol.h"
+#include "asservissement.h"
 
 #define PWMPER 24.0
 
 
-float acceleration = 0.7;
+float acceleration = 0.7f;
 
 void InitPWM(void) {
     PTCON2bits.PCLKDIV = 0b000; //Divide by 1
@@ -35,6 +36,7 @@ void InitPWM(void) {
 
     /* Enable PWM Module */
     PTCONbits.PTEN = 1;
+    
 }
 double talon = 50;
 
@@ -57,13 +59,29 @@ double talon = 50;
         }
     }
 }*/
+//
+//PidCorrector correcteur = {
+//    .Kp = 2.0f,
+//    .Ki = 0.5f,
+//    .Kd = 1.0f,
+//    .erreur = 6.0f,
+//    .erreurIntegrale = 4.0f,
+//    .epsilon_1 = 7.0f,
+//    .erreurProportionelleMax = 100.0f,
+//    .erreurIntegraleMax = 50.0f,
+//    .erreurDeriveeMax = 20.0f,
+//    .corrP = 5.0f,
+//    .corrI = 9.0f,
+//    .corrD = 6.0f
+//};
 
 void PWMSpeedConsigne(float vitesseEnPourcents, char moteur){
-    if(moteur == 1){
+    /*if(moteur == 1){
         robotState.vitesseDroiteConsigne = vitesseEnPourcents;
     }else{
         robotState.vitesseGaucheConsigne = -vitesseEnPourcents;
-    }
+    }*/
+    
     
 }
 

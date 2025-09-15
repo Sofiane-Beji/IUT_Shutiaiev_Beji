@@ -8,6 +8,11 @@
 #ifndef QEI_H
 #define	QEI_H
 
+//PID
+#define COEF_VITESSE_POURCENT 40
+#define DISTROUES 0.216
+#define FREQ_ECH_QEI 250
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
