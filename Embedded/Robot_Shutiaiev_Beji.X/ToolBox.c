@@ -42,3 +42,7 @@ float DegreeToRadian(float value) {
 float DistanceIR (int ADCValeur){
     return 3079*powf(ADCValeur, -1.145);
 }
+
+float MeterSecondToPercent(float vitesse){
+    return 100/3.5*vitesse;
+}

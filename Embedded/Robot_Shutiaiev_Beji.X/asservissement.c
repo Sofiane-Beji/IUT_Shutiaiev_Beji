@@ -69,11 +69,14 @@
     return PidCorr->corrP + PidCorr->corrI + PidCorr->corrD;
 }
 
+ float COEF_VITESSE_POURCENT = 10.0f;
+ float DISTROUES = 0.216f;
+ 
 void UpdateAsservissement(){
    
     //TEST
-    robotState.consigneVitesseLineaire = 2.4f;
-    robotState.consigneVitesseAngulaire = 5.9f;
+    robotState.consigneVitesseLineaire = 0.0f;
+    robotState.consigneVitesseAngulaire = 0.0f;
     
     robotState.PidX.erreur = robotState.consigneVitesseLineaire - robotState.vitesseLineaireFromOdometry;
     robotState.PidTheta.erreur = robotState.consigneVitesseAngulaire - robotState.vitesseAngulaireFromOdometry;
@@ -105,7 +108,6 @@ void sendPID(int codeFunction){
     getBytesFromFloat(msg, 40, robotState.PidTheta.erreurIntegraleMax);
     getBytesFromFloat(msg, 44, robotState.PidTheta.erreurDeriveeMax);
    
-    //UartEncodeAndSendMessage(codeFunction, 48, msg);
     UartEncodeAndSendMessage(codeFunction, 48, msg);
  }
  

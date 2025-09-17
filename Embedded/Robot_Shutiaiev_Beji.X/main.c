@@ -68,7 +68,11 @@ int main(void) {
             
         }
         
+        //PWMSpeedConsigne(10, MOTEUR_DROIT);//vmax 3.75 m/s
+        //PWMSpeedConsigne(10, MOTEUR_GAUCHE);
         
+        PWMSpeedMS(0.5, MOTEUR_DROIT);
+        PWMSpeedMS(0.5, MOTEUR_GAUCHE);
         //__delay32(10000000);
         
 //        if(robotState.distanceTelemetreExtremGauche<20.0){

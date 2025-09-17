@@ -78,6 +78,10 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
         toggle = 0;
     }
     
+    UpdateAsservissement();
+    sendAsserv(0x0091);
+    sendPID(0x0063);
+    
 
 }
 

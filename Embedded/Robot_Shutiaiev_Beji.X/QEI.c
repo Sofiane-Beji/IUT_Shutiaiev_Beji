@@ -10,9 +10,9 @@
 #include "IO.h"
 
 
-float QeiDroitPosition_T_1 = 0.0;
+float QeiDroitPosition_T_1;
 float QeiDroitPosition = 0.0;
-float QeiGauchePosition_T_1 = 0.0;
+float QeiGauchePosition_T_1;
 float QeiGauchePosition = 0.0;
 
 void InitQEI1() {
@@ -63,10 +63,8 @@ void QEIUpdateData() {
         robotState.angleRadianFromOdometry -= 2 * PI;
     if (robotState.angleRadianFromOdometry < -PI)
         robotState.angleRadianFromOdometry += 2 * PI;
-    UpdateAsservissement();
-    sendAsserv(0x0091);
-    sendPID(0x0063);
-    int test = 5;
+    
+    
 
 }
 

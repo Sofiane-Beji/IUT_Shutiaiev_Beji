@@ -17,6 +17,7 @@ extern "C" {
 void InitPWM(void);
 void PWMSpeedConsigne(float vitesseEnPourcents, char moteur);
 void PWMUpdateSpeed();
+void PWMSpeedMS(float vitesseEnMS, char moteur);
 //void PWMSetSpeed(float vitesseEnPourcents, _Bool moteur);
 
 

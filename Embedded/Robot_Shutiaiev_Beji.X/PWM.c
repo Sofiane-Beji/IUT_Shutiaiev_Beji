@@ -74,13 +74,18 @@ double talon = 50;
 //    .corrI = 9.0f,
 //    .corrD = 6.0f
 //};
+void PWMSpeedMS(float vitesseEnMS, char moteur){
+    float percent = MeterSecondToPercent(vitesseEnMS);
+    PWMSpeedConsigne(percent, moteur);
+}
+
 
 void PWMSpeedConsigne(float vitesseEnPourcents, char moteur){
-    /*if(moteur == 1){
+    if(moteur == 1){
         robotState.vitesseDroiteConsigne = vitesseEnPourcents;
     }else{
         robotState.vitesseGaucheConsigne = -vitesseEnPourcents;
-    }*/
+    }
     
     
 }

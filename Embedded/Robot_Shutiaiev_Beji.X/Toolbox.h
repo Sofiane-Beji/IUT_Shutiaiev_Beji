@@ -20,6 +20,7 @@ extern "C" {
     float RadianToDegree(float value);
     float DegreeToRadian(float value);
     float DistanceIR (int ADCValeur);
+    float MeterSecondToPercent(float vitesse);
 
 
 #ifdef	__cplusplus
