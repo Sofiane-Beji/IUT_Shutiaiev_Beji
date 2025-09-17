@@ -8,6 +8,7 @@
 #include "Utilities.h"
 #include <xc.h>
 #include "IO.h"
+#include "asservissement.h"
 
 
 float QeiDroitPosition_T_1;
@@ -63,8 +64,9 @@ void QEIUpdateData() {
         robotState.angleRadianFromOdometry -= 2 * PI;
     if (robotState.angleRadianFromOdometry < -PI)
         robotState.angleRadianFromOdometry += 2 * PI;
-    
-    
+
+    UpdateAsservissement();
+
 
 }
 

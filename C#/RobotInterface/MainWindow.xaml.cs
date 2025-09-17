@@ -280,18 +280,18 @@ namespace RobotInterface
 
         private void boutonTest_Click(object sender, RoutedEventArgs e)
         {
-            float kpX = 0f;
-            float kiX = 0f;
+            float kpX = 2.0f;
+            float kiX = 40.0f;
             float kdX = 0f;
-            float limitPX = 0f;
-            float limitIX = 0f;
-            float limitDX = 0f;
-            float kpTheta = 0f;
-            float kiTheta = 0f;
+            float limitPX = 100.0f;
+            float limitIX = 100.0f;
+            float limitDX = 100.0f;
+            float kpTheta = 2.0f;
+            float kiTheta = 20.0f;
             float kdTheta = 0f;
-            float limitPTheta = 0f;
-            float limitITheta = 0f;
-            float limitDTheta = 0f;
+            float limitPTheta = 100.0f;
+            float limitITheta = 100.0f;
+            float limitDTheta = 100.0f;
             byte[] pidPayload = new byte[48];
             BitConverter.GetBytes(kpX).CopyTo(pidPayload, 0);
             BitConverter.GetBytes(kiX).CopyTo(pidPayload, 4);

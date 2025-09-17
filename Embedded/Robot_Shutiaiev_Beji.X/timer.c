@@ -78,7 +78,6 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
         toggle = 0;
     }
     
-    UpdateAsservissement();
     sendAsserv(0x0091);
     sendPID(0x0063);
     
@@ -130,8 +129,8 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void) {
     }
     if(robotState.delayTime > 0)
     {
-        PWMSpeedConsigne(-20, MOTEUR_DROIT);
-        PWMSpeedConsigne(20, MOTEUR_GAUCHE);
+//        PWMSpeedConsigne(-20, MOTEUR_DROIT);
+//        PWMSpeedConsigne(20, MOTEUR_GAUCHE);
         robotState.avoidingObstaclesBool = 0;
     }
     else

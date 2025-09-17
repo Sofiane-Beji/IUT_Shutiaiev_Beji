@@ -40,9 +40,9 @@ typedef struct robotStateBITS {
             //PID
             PidCorrector PidX;
             PidCorrector PidTheta;
-            PidCorrector PdTheta;
-            PidCorrector PdX;
-            
+//            PidCorrector PdTheta;
+//            PidCorrector PdX;
+//            
             
             float consigneVitesseLineaire;
             float consigneVitesseAngulaire;

@@ -36,7 +36,7 @@ void InitPWM(void) {
 
     /* Enable PWM Module */
     PTCONbits.PTEN = 1;
-    
+
 }
 double talon = 50;
 
@@ -74,20 +74,28 @@ double talon = 50;
 //    .corrI = 9.0f,
 //    .corrD = 6.0f
 //};
-void PWMSpeedMS(float vitesseEnMS, char moteur){
+
+void PWMSpeedMS(float vitesseEnMS, char moteur) {
     float percent = MeterSecondToPercent(vitesseEnMS);
     PWMSpeedConsigne(percent, moteur);
 }
 
 
-void PWMSpeedConsigne(float vitesseEnPourcents, char moteur){
-    if(moteur == 1){
+float DISTROUES = 0.216f;
+
+void PWMSpeedConsignePolaire(float vitesseX, float vitesseTheta) {
+    PWMSpeedConsigne(30.0 * (vitesseX - vitesseTheta * DISTROUES), MOTEUR_DROIT);
+    PWMSpeedConsigne(30.0 * (vitesseX + vitesseTheta * DISTROUES), MOTEUR_GAUCHE);
+}
+
+void PWMSpeedConsigne(float vitesseEnPourcents, char moteur) {
+    if (moteur == 1) {
         robotState.vitesseDroiteConsigne = vitesseEnPourcents;
-    }else{
+    } else {
         robotState.vitesseGaucheConsigne = -vitesseEnPourcents;
     }
-    
-    
+
+
 }
 
 void PWMUpdateSpeed() {
@@ -122,17 +130,17 @@ void PWMUpdateSpeed() {
         PDC2 = talon;
         SDC2 = -robotState.vitesseGaucheCommandeCourante * PWMPER + talon;
     }
-    
-//    if(robotState.vitesseGaucheCommandeCourante <= -23.0 && robotState.vitesseDroiteCommandeCourante >= 23.0)
-//    {
-//        LED_BLEUE_2 = 1;
-//        LED_ROUGE_2 = 1;
-//        LED_ORANGE_2 = 1;
-//    }
-//    else
-//    {
-//        LED_BLEUE_2 = 0;
-//        LED_ROUGE_2 = 0;
-//        LED_ORANGE_2 = 0;
-//    }
+
+    //    if(robotState.vitesseGaucheCommandeCourante <= -23.0 && robotState.vitesseDroiteCommandeCourante >= 23.0)
+    //    {
+    //        LED_BLEUE_2 = 1;
+    //        LED_ROUGE_2 = 1;
+    //        LED_ORANGE_2 = 1;
+    //    }
+    //    else
+    //    {
+    //        LED_BLEUE_2 = 0;
+    //        LED_ROUGE_2 = 0;
+    //        LED_ORANGE_2 = 0;
+    //    }
 }

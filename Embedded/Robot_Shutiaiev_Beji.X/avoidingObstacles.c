@@ -9,8 +9,8 @@
 void avoidingObstacles() {
     
     if(STOP == 1){
-        PWMSpeedConsigne(0.0, MOTEUR_DROIT);
-        PWMSpeedConsigne(0.0, MOTEUR_GAUCHE);
+//        PWMSpeedConsigne(0.0, MOTEUR_DROIT);
+//        PWMSpeedConsigne(0.0, MOTEUR_GAUCHE);
         //return;
     }
     if (ADCIsConversionFinished() == 1) {
