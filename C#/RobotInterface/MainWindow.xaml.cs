@@ -49,7 +49,7 @@ namespace RobotInterface
             SciChartSurface.SetRuntimeLicenseKey("rawGYdZucXOANEX0TnQ0wSvPHXM3trkTCdRqc9VgfXhPE3bF05t7I6j41xW49IvBviM4ep3kbiO/Gj9qQ3rNDcq89Lm8hXfqu/0rMuj5hoTrcn1knJIGGB85+GaoUQP4ZV+mMFPnL3b2erT/NXobKdwi9SmlNJHfoesS4uM7AvLOSUymT8FknehVb1Ur9rqr1jxMn37sDcBql2nBHuDDSXiX1Fl0EB7OiMKyPZf+bEdqKE+j4+oOyZIGvuXbIAnffl4b1jv5J9vW2LmlDptXKLPQ42oywJwL+GmejhqV6VMSWB/9wtPfHKrPxRAI+7ViMMoKyIwR0Fch+PoLLRvA2ACLjXza3JCp3+SGXEGnajE8g+Wyey6gqIbxz1dGhEq8QXQa3X/QPfrZb4G/B+SFgo/Q8FJGn4sxCV+n469Wr92YF+d23giEOt49UFn2IL6czW19nFUQF09pRX6buAq0ULeFFeQs0vB0uxH+aosgIr5SuR6+W+9ptFSxJf+XZiA44wbhney7");
 
             InitializeComponent();
-            serialPort1 = new ExtendedSerialPort("COM11", 115200, Parity.None, 8, StopBits.One);
+            serialPort1 = new ExtendedSerialPort("COM4", 115200, Parity.None, 8, StopBits.One);
             serialPort1.DataReceived += SerialPort1_DataReceived;
             serialPort1.Open();
             timerAffichage = new DispatcherTimer();
@@ -152,7 +152,7 @@ namespace RobotInterface
                     TextBoxReception.Text += "vitesseAngulaireFromOdometry: " + (Robot.vitesseAngulaireFromOdometry).ToString() + "\n\n";
 
                     TextBoxReception.Text += "Ghost_Xpos : " + (Robot.positionXGhosto).ToString() + "\n";
-                    TextBoxReception.Text += "Ghost_Xpos : " + (Robot.positionYGhosto).ToString() + "\n";
+                    TextBoxReception.Text += "Ghost_Ypos : " + (Robot.positionYGhosto).ToString() + "\n";
                     TextBoxReception.Text += "Angle_RadGhost : " + (Robot.angleRadGhosto).ToString() + "\n";
 
                     TextBoxReception.Text += "KpX = " + Robot.kpX + " kiX = " + Robot.kiX + " kdX = " + Robot.kdX + "\n" + "PropX = " +
@@ -280,15 +280,15 @@ namespace RobotInterface
 
         private void boutonTest_Click(object sender, RoutedEventArgs e)
         {
-            float kpX = 2.0f;
-            float kiX = 40.0f;
-            float kdX = 0f;
+            float kpX = 15.0f;
+            float kiX = 7.0f;
+            float kdX = 0.0f;
             float limitPX = 100.0f;
             float limitIX = 100.0f;
             float limitDX = 100.0f;
-            float kpTheta = 2.0f;
+            float kpTheta = 20.0f;
             float kiTheta = 20.0f;
-            float kdTheta = 0f;
+            float kdTheta = 1.0f;
             float limitPTheta = 100.0f;
             float limitITheta = 100.0f;
             float limitDTheta = 100.0f;

@@ -246,7 +246,7 @@ void UartProcessDecodedMessage(int rcvFunction, int payloadLength, unsigned char
             
             SetupPidAsservissement(&robotState.PidX, (double)correctKp,  (double)correctKi, (double)correctKd, (double)limitPX, (double)limitPI, (double)limitPD);
             SetupPidAsservissement(&robotState.PidTheta, (double)correctKpT,  (double)correctKiT, (double)correctKdT, (double)limitPXT, (double)limitPIT, (double)limitPDT);
-            
+            robotState.start = 1;
             
             
             

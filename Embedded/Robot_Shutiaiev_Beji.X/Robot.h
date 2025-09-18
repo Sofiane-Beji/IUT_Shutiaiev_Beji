@@ -50,6 +50,8 @@ typedef struct robotStateBITS {
             float correctionVitesseAngulaire;
             float erreurGauche;
             float erreurDroite;
+            
+            _Bool start;
         };
     };
 } ROBOT_STATE_BITS;

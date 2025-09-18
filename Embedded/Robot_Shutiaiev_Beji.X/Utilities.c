@@ -10,11 +10,17 @@ double Modulo2PIAngleRadian(double angleRadian) {
     return fmod(angleTemp + PI, 2 * PI) - PI;
 }
 
-float moduloByAngle(double angleToCenterAround, double angleToCorrect){
-    int decalageNbTours = (int) round((angleToCorrect - angleToCenterAround)/(2*M_PI));
-    double thetaDest = angleToCorrect - decalageNbTours * 2 * M_PI;
-    return thetaDest;
+float moduloByAngle(double center, double angle) {
+    double result = angle;
+
+    while (result - center > M_PI)
+        result -= 2 * M_PI;
+    while (result - center < -M_PI)
+        result += 2 * M_PI;
+
+    return result;
 }
+
 
 float getFloat(unsigned char *p, int index)
 {

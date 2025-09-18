@@ -81,6 +81,10 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void) {
     sendAsserv(0x0091);
     sendPID(0x0063);
     
+//    if(robotState.start == 1){
+//        UpdateTrajectory();
+//    }
+    
 
 }
 

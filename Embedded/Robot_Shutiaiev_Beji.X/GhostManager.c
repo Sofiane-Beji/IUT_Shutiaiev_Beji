@@ -24,7 +24,7 @@ struct Waypoint {
 typedef struct Waypoint Waypoint_t;
 
 void InitTrajectoryGenerator(void) {
-    ghostPosition.x = 1.33;
+    ghostPosition.x = 0.0;
     ghostPosition.y = 0.0;
     ghostPosition.theta = -PI;
     ghostPosition.linearSpeed = 0.0;
@@ -35,7 +35,7 @@ void InitTrajectoryGenerator(void) {
     ghostPosition.distanceToTarget = 0.0;
 }
 
-Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}, {0, 0.5, 0}, {-1, 0.5, 0}, {-1, -0.5, 0}, {0, -0.5, 0}, {0, 0, 0}, {1.3, 0, 1}};
+Waypoint_t waypoints[MAX_POS] = {{0, 0, 0}, {0, 0.5, 0}};
 
 
 void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat actuel par rapport au waypoint
@@ -151,6 +151,7 @@ void UpdateTrajectory() // Mise a jour de la trajectoire en fonction de l'etat a
         ghostPosition.x += incremntLin * cos(ghostPosition.theta);
         ghostPosition.y += incremntLin * sin(ghostPosition.theta);
         robotState.consigneVitesseLineaire = ghostPosition.linearSpeed;
+        robotState.consigneVitesseAngulaire = ghostPosition.angularSpeed;
     }
     SendGhostData();
 }

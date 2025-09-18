@@ -190,6 +190,9 @@ public class Robot
                         case 0x0091:
                             codeAsserv(msgDecodedPayload);
                             break;
+                        case 0x0010:
+                            ghostDatas(msgDecodedPayload);
+                            break;
                         //default:
                             //throw new Exception("Code non reconnu");
                     }
@@ -429,6 +432,17 @@ public class Robot
 
         corrDX = BitConverter.ToSingle(c, 80);
         corrDTheta = BitConverter.ToSingle(c, 84);
-    }            
+    }    
+    
+    void ghostDatas(byte[] c)
+    {
+        var TabG = c.Skip(0).Take(4).Reverse().ToArray();
+        timestamp = BitConverter.ToUInt32(TabG, 0);
+        angleRadGhosto = BitConverter.ToSingle(c, 4);
+        vitesseLineaireGhosto = BitConverter.ToSingle(c, 8);
+        vitesseAngGhosto = BitConverter.ToSingle(c, 12);
+        positionXGhosto = BitConverter.ToSingle(c, 16);
+        positionYGhosto = BitConverter.ToSingle(c, 20);
+    }
 
 }

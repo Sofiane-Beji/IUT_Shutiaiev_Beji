@@ -61,23 +61,23 @@ double Correcteur(volatile PidCorrector* PidCorr, float erreur) {
 
 float COEF_VITESSE_POURCENT = 10.0f;
 
-        void UpdateAsservissement() {
+void UpdateAsservissement() {
 
     //TEST
 
     robotState.consigneVitesseLineaire = 0.0f;
-            robotState.consigneVitesseAngulaire = 0.0f;
+    robotState.consigneVitesseAngulaire = 0.0f;
 
-            robotState.PidX.erreur = robotState.consigneVitesseLineaire - robotState.vitesseLineaireFromOdometry;
-            robotState.PidTheta.erreur = robotState.consigneVitesseAngulaire - robotState.vitesseAngulaireFromOdometry;
+    robotState.PidX.erreur = robotState.consigneVitesseLineaire - robotState.vitesseLineaireFromOdometry;
+    robotState.PidTheta.erreur = robotState.consigneVitesseAngulaire - robotState.vitesseAngulaireFromOdometry;
 
-            robotState.correctionVitesseLineaire = Correcteur(&robotState.PidX, robotState.PidX.erreur);
-            robotState.correctionVitesseAngulaire = Correcteur(&robotState.PidTheta, robotState.PidTheta.erreur);
+    robotState.correctionVitesseLineaire = Correcteur(&robotState.PidX, robotState.PidX.erreur);
+    robotState.correctionVitesseAngulaire = Correcteur(&robotState.PidTheta, robotState.PidTheta.erreur);
 
             //robotState.PdTheta.erreur = ghostPosition.theta - robotState.angleRadianFromOdometry;
             //robotState.consigneVitesseAngulaire += Correcteur(&robotState.PdTheta, robotState.PdTheta.erreur);
 
-            PWMSpeedConsignePolaire(robotState.correctionVitesseLineaire, robotState.correctionVitesseAngulaire );
+    PWMSpeedConsignePolaire(robotState.correctionVitesseLineaire, robotState.correctionVitesseAngulaire );
 
 }
 

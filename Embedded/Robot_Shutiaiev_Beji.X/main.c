@@ -30,7 +30,7 @@ int main(void) {
     InitPWM();
     
     InitUART();
-    
+    robotState.start = 0;
     InitTrajectoryGenerator();
     
     //PWMSetSpeed(, MOTEUR_DROIT);
