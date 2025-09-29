@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfWorldMap", "..\WpfWorldM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "..\Utilities\Utilities.csproj", "{8E7D0DA4-9A13-4B18-A90E-0243BBCCE40A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAsservissementDisplay", "..\WpfAsservissementDisplay\WpfAsservissementDisplay.csproj", "{F0A887E9-D0A2-47E3-994A-94A0DCAE8D4F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAsservissementDisplay", "..\WpfAsservissementDispla_N\WpfAsservissementDisplay\WpfAsservissementDisplay.csproj", "{F0A887E9-D0A2-47E3-994A-94A0DCAE8D4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
